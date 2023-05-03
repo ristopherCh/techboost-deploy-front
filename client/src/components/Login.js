@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../modules/authManager";
 
@@ -18,7 +18,6 @@ export default function Login() {
 
   return (
     <Form onSubmit={loginSubmit}>
-      <fieldset>
         <FormGroup>
           <Label for="email">Email</Label>
           <Input
@@ -39,10 +38,6 @@ export default function Login() {
         <FormGroup>
           <Button>Login</Button>
         </FormGroup>
-        <em>
-          Not registered? <Link to="register">Register</Link>
-        </em>
-      </fieldset>
     </Form>
   );
 }

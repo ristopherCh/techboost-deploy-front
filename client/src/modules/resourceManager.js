@@ -1,11 +1,11 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "/api/userprofile";
+const _apiUrl = "/api/resource";
 
-export const getUser = (userId) => {
+export const getResource = (resourceId) => {
   return getToken().then((token) => {
-    const fetchUrl = `${_apiUrl}/details/${userId}`;
+    const fetchUrl = `${_apiUrl}/details/${resourceId}`;
     return fetch(fetchUrl, {
       method: "GET",
       headers: {
@@ -16,14 +16,14 @@ export const getUser = (userId) => {
         return res.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to fetch a user profile."
+          "An unknown error occurred while trying to fetch a resource."
         );
       }
     });
   });
 };
 
-export const getAllUsers = () => {
+export const getAllResources = () => {
   return getToken().then((token) => {
     return fetch(_apiUrl, {
       method: "GET",
@@ -35,7 +35,7 @@ export const getAllUsers = () => {
         return res.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to fetch all user profiles."
+          "An unknown error occurred while trying to fetch all resources."
         );
       }
     });
