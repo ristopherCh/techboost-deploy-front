@@ -54,6 +54,18 @@ namespace TechBoost.Controllers
 			return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile);
 		}
 
+		[HttpGet("Me")]
+		public IActionResult Me()
+		{
+			var userProfile = GetCurrentUserProfile();
+			if (userProfile == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(userProfile);
+		}
+
 		private UserProfile GetCurrentUserProfile()
 		{
 			var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

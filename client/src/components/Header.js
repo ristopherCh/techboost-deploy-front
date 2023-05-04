@@ -35,6 +35,11 @@ const Header = ({ isLoggedIn }) => {
                   Resources
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/resources/create">
+                  Create new resource
+                </NavLink>
+              </NavItem>
               <NavLink
                 tag={RRNavLink}
                 to="/login"
