@@ -13,5 +13,6 @@ namespace TechBoost.Models
 		public decimal Price { get; set; }
 		public DateTime DatePublished { get; set; }
 		public string ImageUrl { get; set; }
+		public string ResourceUrl { get; set; }
 	}
 }

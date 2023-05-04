@@ -41,3 +41,50 @@ export const getAllResources = () => {
     });
   });
 };
+
+export const addResource = (resource) => {
+  return getToken().then((token) => {
+    return fetch(_apiUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(resource),
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else if (resp.status === 401) {
+        throw new Error("Unauthorized");
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to create a new resource."
+        );
+      }
+    });
+  });
+};
+
+export const editResource = (resource) => {
+  return getToken().then((token) => {
+    return fetch(_apiUrl, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(resource),
+    });
+  });
+};
+
+export const deleteResource = (id) => {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
+  });
+};
+
