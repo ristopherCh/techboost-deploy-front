@@ -8,6 +8,8 @@ import ResourceForm from "./Resources/ResourceForm";
 import ResourceEdit from "./Resources/ResourceEdit";
 
 const ApplicationViews = ({ isLoggedIn }) => {
+
+
   return (
     <Routes>
       <Route path="/">

@@ -3,14 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { deleteResource, getResource } from "../../modules/resourceManager";
 import ResourceCard from "./ResourceCard";
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
+import { me } from "../../modules/authManager";
 
 const ResourceDetails = () => {
   const { id } = useParams();
   const [resource, setResource] = useState({});
   const [showConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [user, setUser] = useState({});
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    me().then(setUser);
     getResource(id).then(setResource);
   }, []);
 
@@ -38,16 +42,24 @@ const ResourceDetails = () => {
     setShowDeleteConfirmation(!showConfirmation);
   };
 
+  const showButtons = user.id === resource.submitterId;
+
   return (
     <>
       <ResourceCard resource={resource} />
-      <Button onClick={() => navigate("edit")}>Edit</Button>
-      <Button onClick={handleDeactivateClick}>Delete</Button>
-      <DeleteModal
-        show={showConfirmation}
-        onHide={handleHideConfirmation}
-        onConfirm={() => handleConfirmDelete(resource.id)}
-      />
+      {Object.keys(user).length > 0 && showButtons ? (
+        <>
+          <Button onClick={() => navigate("edit")}>Edit</Button>
+          <Button onClick={handleDeactivateClick}>Delete</Button>
+          <DeleteModal
+            show={showConfirmation}
+            onHide={handleHideConfirmation}
+            onConfirm={() => handleConfirmDelete(resource.id)}
+          />
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 };

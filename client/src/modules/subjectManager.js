@@ -1,11 +1,30 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "/api/resource";
+const _apiUrl = "/api/subject";
 
-export const getResource = (resourceId) => {
+export const getAllSubjects = () => {
   return getToken().then((token) => {
-    const fetchUrl = `${_apiUrl}/details/${resourceId}`;
+    return fetch(_apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch all subjects."
+        );
+      }
+    });
+  });
+};
+
+export const getSubject = (subjectId) => {
+  return getToken().then((token) => {
+    const fetchUrl = `${_apiUrl}/${subjectId}`;
     return fetch(fetchUrl, {
       method: "GET",
       headers: {
@@ -16,33 +35,14 @@ export const getResource = (resourceId) => {
         return res.json();
       } else {
         throw new Error(
-          "An unknown error occurred while trying to fetch a resource."
+          "An unknown error occurred while trying to fetch a subject."
         );
       }
     });
   });
 };
 
-export const getAllResources = () => {
-  return getToken().then((token) => {
-    return fetch(_apiUrl, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(
-          "An unknown error occurred while trying to fetch all resources."
-        );
-      }
-    });
-  });
-};
-
-export const addResource = (resource) => {
+export const addSubject = (subject) => {
   return getToken().then((token) => {
     return fetch(_apiUrl, {
       method: "POST",
@@ -50,7 +50,7 @@ export const addResource = (resource) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(resource),
+      body: JSON.stringify(subject),
     }).then((resp) => {
       if (resp.ok) {
         return resp.json();
@@ -58,32 +58,9 @@ export const addResource = (resource) => {
         throw new Error("Unauthorized");
       } else {
         throw new Error(
-          "An unknown error occurred while trying to create a new resource."
+          "An unknown error occurred while trying to create a new subject."
         );
       }
     });
-  });
-};
-
-export const editResource = (resource) => {
-  return getToken().then((token) => {
-    return fetch(_apiUrl, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(resource),
-    });
-  });
-};
-
-export const deleteResource = (id) => {
-  return fetch(`${_apiUrl}/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(id),
   });
 };
