@@ -21,3 +21,19 @@ export const getAllMediaTypes = () => {
     });
   });
 };
+
+export const getMediaType = (mediaTypeId) => {
+  return getToken().then((token) => {
+    const fetchUrl = `${_apiUrl}/${mediaTypeId}`;
+    return fetch(fetchUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    });
+  });
+};

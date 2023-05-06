@@ -4,14 +4,16 @@ import ResourceCard from "./ResourceCard";
 
 const ResourceList = () => {
   const [resources, setResources] = useState([]);
+  
 
   useEffect(() => {
     getAllResources().then(setResources);
+    
   }, []);
 
   return (
     <div>
-      <h2>All Resources</h2>
+      <h2 className="text-center">Resources</h2>
       {resources.map((resource) => (
         <div key={resource.id}>
           <ResourceCard resource={resource} />

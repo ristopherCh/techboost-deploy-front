@@ -19,5 +19,11 @@ namespace TechBoost.Controllers
 		{
 			return Ok(_mediaTypeRepository.GetAll());
 		}
+
+		[HttpGet("{id}")]
+		public IActionResult GetMediaTypeById(int id)
+		{
+			return Ok(_mediaTypeRepository.GetMediaTypeById(id));
+		}
 	}
 }

@@ -1,16 +1,16 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using TechBoost.Models;
 using TechBoost.Utils;
 
 namespace TechBoost.Repositories
 {
-	public class MediaTypeRepository : BaseRepository, IMediaTypeRepository
+	public class SubjectRepository : BaseRepository, ISubjectRepository
 	{
-		public MediaTypeRepository(IConfiguration configuration) : base(configuration) { }
-
-		public List<MediaType> GetAll()
+		public SubjectRepository(IConfiguration configuration) : base(configuration) { }
+		public List<Subject> GetAll()
 		{
 			using (var conn = Connection)
 			{
@@ -19,26 +19,27 @@ namespace TechBoost.Repositories
 				{
 					cmd.CommandText = @"
 							SELECT Id, Name
-							FROM MediaType";
+							FROM Subject";
 					using (SqlDataReader reader = cmd.ExecuteReader())
 					{
-						var mediaTypes = new List<MediaType>();
+						var subjects = new List<Subject>();
 						while (reader.Read())
 						{
-							var mediaType = new MediaType()
+							var subject = new Subject()
 							{
 								Id = DbUtils.GetInt(reader, "Id"),
 								Name = DbUtils.GetString(reader, "Name"),
 
 							};
-							mediaTypes.Add(mediaType);
+							subjects.Add(subject);
 						}
-						return mediaTypes;
+						return subjects;
 					}
 				}
 			}
 		}
-		public MediaType GetMediaTypeById(int id)
+
+		public Subject GetSubjectById(int id)
 		{
 			using (var conn = Connection)
 			{
@@ -47,17 +48,17 @@ namespace TechBoost.Repositories
 				{
 					cmd.CommandText = @"
 						SELECT Id, Name
-						FROM MediaType
+						FROM Subject
                         WHERE Id = @Id";
 
 					DbUtils.AddParameter(cmd, "@Id", id);
 
-					MediaType mediaType = null;
+					Subject subject = null;
 
 					var reader = cmd.ExecuteReader();
 					if (reader.Read())
 					{
-						mediaType = new MediaType()
+						subject = new Subject()
 						{
 							Id = DbUtils.GetInt(reader, "Id"),
 							Name = DbUtils.GetString(reader, "Name"),
@@ -65,7 +66,28 @@ namespace TechBoost.Repositories
 					}
 					reader.Close();
 
-					return mediaType;
+					return subject;
+				}
+			}
+		}
+
+		public void AddResourceSubject(ResourceSubject resourceSubject)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+									INSERT INTO ResourceSubject (ResourceId, SubjectId)
+									OUTPUT INSERTED.ID
+									VALUES (@ResourceId, @SubjectID); 
+										";
+					DbUtils.AddParameter(cmd, "@ResourceId", resourceSubject.ResourceId);
+					DbUtils.AddParameter(cmd, "@SubjectId", resourceSubject.SubjectId);
+
+					resourceSubject.Id = (int)cmd.ExecuteScalar();
+
 				}
 			}
 		}

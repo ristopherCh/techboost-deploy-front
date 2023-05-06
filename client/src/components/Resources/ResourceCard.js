@@ -14,6 +14,10 @@ const ResourceCard = ({ resource }) => {
       </CardHeader>
       <CardBody>
         <div>
+          <strong>Media type</strong>
+        </div>
+        <div>{resource.mediaType?.name}</div>
+        <div className="mt-2">
           <strong>Description</strong>
         </div>
         <div>{resource.description}</div>
@@ -24,7 +28,7 @@ const ResourceCard = ({ resource }) => {
         <div className="mt-2">
           <strong>Price</strong>
         </div>
-        <div>{resource.price}</div>
+        {resource.price === 0 ? "Free" : <div>{resource.price}</div>}
       </CardBody>
       <CardLink href={resource.resourceUrl} target="_blank">
         <div className="ms-2">Link to resource</div>

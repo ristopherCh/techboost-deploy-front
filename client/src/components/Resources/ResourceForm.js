@@ -4,6 +4,7 @@ import { me } from "../../modules/authManager";
 import { getAllMediaTypes } from "../../modules/mediaTypeManager";
 import { addResource, editResource } from "../../modules/resourceManager";
 import { useNavigate } from "react-router-dom";
+import { addSubject, getAllSubjects } from "../../modules/subjectManager";
 
 const ResourceForm = ({ resourceEditable }) => {
   const navigate = useNavigate();
@@ -19,6 +20,10 @@ const ResourceForm = ({ resourceEditable }) => {
     resourceUrl: "",
   });
   const [allMediaTypes, setAllMediaTypes] = useState([]);
+  const [allSubjects, setAllSubjects] = useState([]);
+  const [filteredSubjects, setFilteredSubjects] = useState([]);
+  const [subjectSearch, setSubjectSearch] = useState("");
+  const [addedSubjects, setAddedSubjects] = useState([]);
 
   useEffect(() => {
     me().then((data) => {
@@ -27,23 +32,26 @@ const ResourceForm = ({ resourceEditable }) => {
         submitterId: data.id,
       }));
     });
+    getAllSubjects().then(setAllSubjects);
     getAllMediaTypes().then(setAllMediaTypes);
   }, []);
 
   useEffect(() => {
-    if (Object.keys(resourceEditable).length > 0) {
-      setResource({
-        id: resourceEditable.id,
-        name: resourceEditable.name,
-        submitterId: resourceEditable.submitterId,
-        creator: resourceEditable.creator,
-        mediaTypeId: resourceEditable.mediaTypeId,
-        description: resourceEditable.description,
-        price: resourceEditable.price,
-        datePublished: resourceEditable.datePublished.slice(0, 10),
-        imageUrl: resourceEditable.imageUrl,
-        resourceUrl: resourceEditable.resourceUrl,
-      });
+    if (resourceEditable) {
+      if (Object.keys(resourceEditable).length > 0) {
+        setResource({
+          id: resourceEditable.id,
+          name: resourceEditable.name,
+          submitterId: resourceEditable.submitterId,
+          creator: resourceEditable.creator,
+          mediaTypeId: resourceEditable.mediaTypeId,
+          description: resourceEditable.description,
+          price: resourceEditable.price,
+          datePublished: resourceEditable.datePublished.slice(0, 10),
+          imageUrl: resourceEditable.imageUrl,
+          resourceUrl: resourceEditable.resourceUrl,
+        });
+      }
     }
   }, [resourceEditable]);
 
@@ -59,9 +67,19 @@ const ResourceForm = ({ resourceEditable }) => {
     event.preventDefault();
     let copy = { ...resource };
     copy.mediaTypeId = parseInt(copy.mediaTypeId);
-    copy.price = parseFloat(copy.price);
-    addResource(copy).then((data) => {
-      navigate(`/resources/details/${data.id}`);
+    if (copy.price !== "") {
+      copy.price = parseFloat(copy.price);
+    }
+    addResource(copy).then((newResource) => {
+      console.log(newResource);
+      for (let subject of addedSubjects) {
+        let resourceSubject = {
+          resourceId: newResource.id,
+          subjectId: subject.id,
+        };
+        addSubject(resourceSubject);
+      }
+      navigate(`/resources/details/${newResource.id}`);
     });
   };
 
@@ -75,8 +93,46 @@ const ResourceForm = ({ resourceEditable }) => {
     });
   };
 
+  // ^ Search bar stuff
+
+  const handleSubjectSearchChange = (event) => {
+    setSubjectSearch(event.target.value);
+  };
+
+  useEffect(() => {
+    let filteringSubjects = allSubjects.filter((subject) =>
+      subject.name.toLowerCase().includes(subjectSearch.toLowerCase())
+    );
+    setFilteredSubjects(filteringSubjects);
+    if (subjectSearch === "") {
+      setFilteredSubjects([]);
+    }
+  }, [subjectSearch]);
+
+  const handleSearchSelection = (event) => {
+    let clickedSubject = allSubjects.find((subject) => {
+      return subject.id === parseInt(event.target.value);
+    });
+    if (!addedSubjects.some((subject) => subject.id === clickedSubject.id)) {
+      setAddedSubjects([...addedSubjects, clickedSubject]);
+    }
+    setFilteredSubjects([]);
+    setSubjectSearch("");
+  };
+
+  const handleRemoveAddedSubject = (event) => {
+    event.preventDefault();
+    setAddedSubjects(
+      addedSubjects.filter(
+        (subject) => subject.id !== parseInt(event.target.value)
+      )
+    );
+  };
+
+  // ^^^^
+
   return (
-    <Form>
+    <Form className="m-5">
       <FormGroup>
         <Label for="name">Name</Label>
         <Input
@@ -100,15 +156,7 @@ const ResourceForm = ({ resourceEditable }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label for="mediaTypeId">Media Type ID</Label>
-        {/* <Input
-          type="text"
-          name="mediaTypeId"
-          id="mediaTypeId"
-          placeholder="Enter media type ID"
-          value={resource.mediaTypeId}
-          onChange={handleInputChange}
-        /> */}
+        <Label for="mediaTypeId">Media Type</Label>
         <Input
           type="select"
           name="mediaTypeId"
@@ -179,15 +227,59 @@ const ResourceForm = ({ resourceEditable }) => {
           onChange={handleInputChange}
         />
       </FormGroup>
-      {Object.keys(resourceEditable).length > 0 ? (
-        <Button type="submit" onClick={handleEdit}>
-          Edit Resource
-        </Button>
-      ) : (
-        <Button type="submit" onClick={handleSubmit}>
-          Create Resource
-        </Button>
-      )}
+      <FormGroup>
+        <div className="mt-2 mb-2">
+          <div>Subjects:</div>
+          <ul>
+            {addedSubjects.map((subject) => (
+              <li className="d-flex flex-row" key={subject.id}>
+                <div>{subject.name}</div>
+                <button
+                  onClick={handleRemoveAddedSubject}
+                  value={subject.id}
+                  className="ms-2"
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Label>Add subjects</Label>
+        <div className="search-bar-dropdown">
+          <Input
+            type="text"
+            name="subject"
+            placeholder="Search for subjects"
+            value={subjectSearch ? subjectSearch : ""}
+            onChange={handleSubjectSearchChange}
+          />
+        </div>
+        <ul className="list-group" id="results">
+          {filteredSubjects.map((subject) => (
+            <button
+              key={subject.id}
+              type="button"
+              value={subject.id}
+              className="list-group-item list-group-item-action"
+              onClick={handleSearchSelection}
+            >
+              {subject.name}
+            </button>
+          ))}
+        </ul>
+      </FormGroup>
+      <FormGroup className="mt-2">
+        {resourceEditable && Object.keys(resourceEditable).length > 0 ? (
+          <Button type="submit" onClick={handleEdit}>
+            Edit Resource
+          </Button>
+        ) : (
+          <Button type="submit" onClick={handleSubmit}>
+            Create Resource
+          </Button>
+        )}
+      </FormGroup>
     </Form>
   );
 };

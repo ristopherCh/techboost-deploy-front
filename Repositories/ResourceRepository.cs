@@ -18,7 +18,10 @@ namespace TechBoost.Repositories
 				conn.Open();
 				using (var cmd = conn.CreateCommand())
 				{
-					cmd.CommandText = @"SELECT Id, Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl FROM Resource";
+					cmd.CommandText = @"
+							SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, MediaType.Name AS MediaTypeName
+							FROM Resource
+							LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id";
 					using (SqlDataReader reader = cmd.ExecuteReader())
 					{
 						var resources = new List<Resource>();
@@ -30,12 +33,17 @@ namespace TechBoost.Repositories
 								Name = DbUtils.GetString(reader, "Name"),
 								SubmitterId = DbUtils.GetInt(reader, "SubmitterId"),
 								Creator = DbUtils.GetString(reader, "Creator"),
-								MediaTypeId = DbUtils.GetInt(reader, "MediaTypeId"),
 								Description = DbUtils.GetString(reader, "Description"),
 								Price = reader.GetDecimal(reader.GetOrdinal("Price")),
 								DatePublished = DbUtils.GetDateTime(reader, "DatePublished"),
 								ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-								ResourceUrl = DbUtils.GetString(reader, "ResourceUrl")
+								ResourceUrl = DbUtils.GetString(reader, "ResourceUrl"),
+								MediaTypeId = DbUtils.GetInt(reader, "MediaTypeId"),
+								MediaType = new MediaType()
+								{
+									Id = DbUtils.GetInt(reader, "MediaTypeId"),
+									Name = DbUtils.GetString(reader, "MediaTypeName")
+								}
 							};
 							resources.Add(resource);
 						}
@@ -53,9 +61,10 @@ namespace TechBoost.Repositories
 				using (var cmd = conn.CreateCommand())
 				{
 					cmd.CommandText = @"
-						SELECT Id, Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl 
+						SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, MediaType.Name AS MediaTypeName
 						FROM Resource
-                        WHERE Id = @Id";
+						LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id
+                        WHERE Resource.Id = @Id";
 
 					DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -70,12 +79,17 @@ namespace TechBoost.Repositories
 							Name = DbUtils.GetString(reader, "Name"),
 							SubmitterId = DbUtils.GetInt(reader, "SubmitterId"),
 							Creator = DbUtils.GetString(reader, "Creator"),
-							MediaTypeId = DbUtils.GetInt(reader, "MediaTypeId"),
 							Description = DbUtils.GetString(reader, "Description"),
 							Price = reader.GetDecimal(reader.GetOrdinal("Price")),
 							DatePublished = DbUtils.GetDateTime(reader, "DatePublished"),
 							ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-							ResourceUrl = DbUtils.GetString(reader, "ResourceUrl")
+							ResourceUrl = DbUtils.GetString(reader, "ResourceUrl"),
+							MediaTypeId = DbUtils.GetInt(reader, "MediaTypeId"),
+							MediaType = new MediaType()
+							{
+								Id = DbUtils.GetInt(reader, "MediaTypeId"),
+								Name = DbUtils.GetString(reader, "MediaTypeName")
+							}
 						};
 					}
 					reader.Close();
