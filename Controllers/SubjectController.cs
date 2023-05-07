@@ -33,5 +33,12 @@ namespace TechBoost.Controllers
 			_subjectRepository.AddResourceSubject(resourceSubject);
 			return CreatedAtAction("Get", new { id = resourceSubject.Id }, resourceSubject);
 		}
+
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			_subjectRepository.DeleteResourceSubject(id);
+			return NoContent();
+		}
 	}
 }

@@ -6,10 +6,9 @@ import ResourceList from "./Resources/ResourcesList";
 import ResourceDetails from "./Resources/ResourceDetails";
 import ResourceForm from "./Resources/ResourceForm";
 import ResourceEdit from "./Resources/ResourceEdit";
+import ResourceBrowse from "./Resources/ResourceBrowse";
 
 const ApplicationViews = ({ isLoggedIn }) => {
-
-
   return (
     <Routes>
       <Route path="/">
@@ -20,7 +19,10 @@ const ApplicationViews = ({ isLoggedIn }) => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="resources">
-          <Route index element={<ResourceList />}></Route>
+          <Route index element={<ResourceList />} />
+          <Route path="subjects/:subject" element=<ResourceList /> />
+          <Route path="mediaTypes/:mediaType" element=<ResourceList /> />
+          <Route path="browse" element={<ResourceBrowse />} />
           <Route path="details/:id">
             <Route index element={<ResourceDetails />} />
             <Route path="edit" element={<ResourceEdit />} />

@@ -8,5 +8,6 @@ namespace TechBoost.Repositories
 		List<Subject> GetAll();
 		Subject GetSubjectById(int id);
 		void AddResourceSubject(ResourceSubject resourceSubject);
+		void DeleteResourceSubject(int id);
 	}
 }

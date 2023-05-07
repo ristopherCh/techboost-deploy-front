@@ -42,7 +42,7 @@ export const getSubject = (subjectId) => {
   });
 };
 
-export const addSubject = (subject) => {
+export const addResourceSubject = (subject) => {
   return getToken().then((token) => {
     return fetch(_apiUrl, {
       method: "POST",
@@ -62,5 +62,15 @@ export const addSubject = (subject) => {
         );
       }
     });
+  });
+};
+
+export const deleteResourceSubject = (id) => {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(id),
   });
 };

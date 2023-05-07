@@ -42,6 +42,44 @@ export const getAllResources = () => {
   });
 };
 
+export const getResourcesByMediaType = (mediaType) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/mediaType/${mediaType}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch resources by media type."
+        );
+      }
+    });
+  });
+};
+
+export const getResourcesBySubject = (subject) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/subject/${subject}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch resources by subject."
+        );
+      }
+    });
+  });
+};
+
 export const addResource = (resource) => {
   return getToken().then((token) => {
     return fetch(_apiUrl, {
