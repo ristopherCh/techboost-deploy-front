@@ -9,29 +9,34 @@ const ResourceCard = ({ resource }) => {
           style={{ color: "inherit", textDecoration: "none" }}
           to={`/resources/details/${resource.id}`}
         >
-          {resource.name}
+          <h5>{resource.name}</h5>
         </Link>
       </CardHeader>
       <CardBody>
         <div>
-          <strong>Media type</strong>
+          <strong>Media Type:</strong> {resource.mediaType?.name}
         </div>
-        <div>{resource.mediaType?.name}</div>
         <div className="mt-2">
-          <strong>Description</strong>
+          <strong>Description:</strong>
         </div>
         <div>{resource.description}</div>
         <div className="mt-2">
-          <strong>Creator</strong>
+          <strong>Creator:</strong> {resource.creator}
         </div>
-        <div>{resource.creator}</div>
         <div className="mt-2">
-          <strong>Price</strong>
+          <strong>Price:</strong> {resource.price === 0 ? "Free" : resource.price}
         </div>
-        {resource.price === 0 ? "Free" : <div>{resource.price}</div>}
+        <div className="mt-2">
+          {resource.subjects?.length > 0 && <strong>Subjects</strong>}
+        </div>
+        <ul className="list-unstyled">
+          {resource.subjects?.map((subject) => (
+            <li key={subject.id}>{subject.name}</li>
+          ))}
+        </ul>
       </CardBody>
       <CardLink href={resource.resourceUrl} target="_blank">
-        <div className="ms-2">Link to resource</div>
+        <div className="ms-2">Link to Resource</div>
       </CardLink>
     </Card>
   );

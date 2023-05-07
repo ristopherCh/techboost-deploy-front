@@ -17,5 +17,6 @@ namespace TechBoost.Models
 		public string ImageUrl { get; set; }
 		public string ResourceUrl { get; set; }
 		public List<ResourceSubject> ResourceSubjects { get; set; }
+		public List<Subject> Subjects { get; set; }
 	}
 }

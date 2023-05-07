@@ -23,9 +23,21 @@ namespace TechBoost.Controllers
 		}
 
 		[HttpGet("details/{id}")]
-		public IActionResult GetUserProfileById(int id)
+		public IActionResult GetResourceById(int id)
 		{
 			return Ok(_resourceRepository.GetResourceById(id));
+		}
+
+		[HttpGet("mediaType/{mediaType}")]
+		public IActionResult GetResourceByMediaType(string mediaType)
+		{
+			return Ok(_resourceRepository.GetResourcesByMediaType(mediaType));
+		}
+
+		[HttpGet("subject/{subject}")]
+		public IActionResult GetResourcesBySubject(string subject)
+		{
+			return Ok(_resourceRepository.GetResourcesBySubject(subject));
 		}
 
 		[HttpPost]

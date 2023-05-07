@@ -4,7 +4,11 @@ import { me } from "../../modules/authManager";
 import { getAllMediaTypes } from "../../modules/mediaTypeManager";
 import { addResource, editResource } from "../../modules/resourceManager";
 import { useNavigate } from "react-router-dom";
-import { addSubject, getAllSubjects } from "../../modules/subjectManager";
+import {
+  addResourceSubject,
+  deleteResourceSubject,
+  getAllSubjects,
+} from "../../modules/subjectManager";
 
 const ResourceForm = ({ resourceEditable }) => {
   const navigate = useNavigate();
@@ -24,6 +28,7 @@ const ResourceForm = ({ resourceEditable }) => {
   const [filteredSubjects, setFilteredSubjects] = useState([]);
   const [subjectSearch, setSubjectSearch] = useState("");
   const [addedSubjects, setAddedSubjects] = useState([]);
+  const [addedResourceSubjects, setAddedResourceSubjects] = useState([]);
 
   useEffect(() => {
     me().then((data) => {
@@ -52,6 +57,7 @@ const ResourceForm = ({ resourceEditable }) => {
           resourceUrl: resourceEditable.resourceUrl,
         });
       }
+      setAddedSubjects(resourceEditable.subjects);
     }
   }, [resourceEditable]);
 
@@ -77,7 +83,7 @@ const ResourceForm = ({ resourceEditable }) => {
           resourceId: newResource.id,
           subjectId: subject.id,
         };
-        addSubject(resourceSubject);
+        addResourceSubject(resourceSubject);
       }
       navigate(`/resources/details/${newResource.id}`);
     });
@@ -88,6 +94,37 @@ const ResourceForm = ({ resourceEditable }) => {
     let copy = { ...resource };
     copy.mediaTypeId = parseInt(copy.mediaTypeId);
     copy.price = parseFloat(copy.price);
+
+    let newResourceSubjects = addedSubjects.filter((addedSubject) => {
+      let matchingSubject = resourceEditable.subjects.find((presetSubject) => {
+        return presetSubject.id === addedSubject.id;
+      });
+      return matchingSubject === undefined;
+    });
+    let removedResourceSubjects = resourceEditable.subjects.filter(
+      (presetSubject) => {
+        let matchingSubject = addedSubjects.find((addedSubject) => {
+          return addedSubject.id === presetSubject.id;
+        });
+        return matchingSubject === undefined;
+      }
+    );
+    for (let subject of removedResourceSubjects) {
+      let foundResourceSubject = resourceEditable.resourceSubjects.find(
+        (presetRS) => {
+          return presetRS.subjectId === subject.id;
+        }
+      );
+      deleteResourceSubject(foundResourceSubject.id);
+    }
+    for (let subject of newResourceSubjects) {
+      let resourceSubject = {
+        resourceId: resourceEditable.id,
+        subjectId: subject.id,
+      };
+      addResourceSubject(resourceSubject);
+    }
+
     editResource(copy).then(() => {
       navigate(`/resources/details/${resource.id}`);
     });
@@ -231,7 +268,7 @@ const ResourceForm = ({ resourceEditable }) => {
         <div className="mt-2 mb-2">
           <div>Subjects:</div>
           <ul>
-            {addedSubjects.map((subject) => (
+            {addedSubjects?.map((subject) => (
               <li className="d-flex flex-row" key={subject.id}>
                 <div>{subject.name}</div>
                 <button
@@ -272,7 +309,7 @@ const ResourceForm = ({ resourceEditable }) => {
       <FormGroup className="mt-2">
         {resourceEditable && Object.keys(resourceEditable).length > 0 ? (
           <Button type="submit" onClick={handleEdit}>
-            Edit Resource
+            Save edits
           </Button>
         ) : (
           <Button type="submit" onClick={handleSubmit}>

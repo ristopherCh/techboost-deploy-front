@@ -47,6 +47,7 @@ const ResourceDetails = () => {
   return (
     <>
       <ResourceCard resource={resource} />
+      <Button onClick={() => navigate("edit")}>Edit</Button>
       {Object.keys(user).length > 0 && showButtons ? (
         <>
           <Button onClick={() => navigate("edit")}>Edit</Button>
