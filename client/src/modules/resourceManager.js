@@ -80,6 +80,25 @@ export const getResourcesBySubject = (subject) => {
   });
 };
 
+export const getResourcesByCreator = (creator) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/creator/${creator}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch resources by creator."
+        );
+      }
+    });
+  });
+};
+
 export const addResource = (resource) => {
   return getToken().then((token) => {
     return fetch(_apiUrl, {

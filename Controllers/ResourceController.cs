@@ -40,6 +40,12 @@ namespace TechBoost.Controllers
 			return Ok(_resourceRepository.GetResourcesBySubject(subject));
 		}
 
+		[HttpGet("creator/{creator}")]
+		public IActionResult GetResourcesByCreator(string creator)
+		{
+			return Ok(_resourceRepository.GetResourcesByCreator(creator));
+		}
+
 		[HttpPost]
 		public IActionResult Post(Resource resource)
 		{
