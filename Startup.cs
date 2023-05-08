@@ -33,6 +33,7 @@ namespace TechBoost
 			services.AddTransient<IResourceRepository, ResourceRepository>();
 			services.AddTransient<IMediaTypeRepository, MediaTypeRepository>();
 			services.AddTransient<ISubjectRepository, SubjectRepository>();
+			services.AddTransient<IReviewRepository, ReviewRepository>();
 
 			var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
 			var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

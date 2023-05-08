@@ -45,23 +45,29 @@ const ResourceDetails = () => {
   const showButtons = user.id === resource.submitterId;
 
   return (
-    <>
-      <ResourceCard resource={resource} />
+    <div className="d-flex flex-column align-items-center">
+      <div className="w-50 min-width-500px">
+        <ResourceCard resource={resource} />
+      </div>
       <Button onClick={() => navigate("edit")}>Edit</Button>
       {Object.keys(user).length > 0 && showButtons ? (
-        <>
-          <Button onClick={() => navigate("edit")}>Edit</Button>
-          <Button onClick={handleDeactivateClick}>Delete</Button>
+        <div>
+          <Button className="m-3" onClick={() => navigate("edit")}>
+            Edit
+          </Button>
+          <Button className="m-3" onClick={handleDeactivateClick}>
+            Delete
+          </Button>
           <DeleteModal
             show={showConfirmation}
             onHide={handleHideConfirmation}
             onConfirm={() => handleConfirmDelete(resource.id)}
           />
-        </>
+        </div>
       ) : (
         ""
       )}
-    </>
+    </div>
   );
 };
 

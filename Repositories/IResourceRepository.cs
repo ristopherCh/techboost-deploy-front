@@ -12,5 +12,6 @@ namespace TechBoost.Repositories
 		void DeleteResource(int id);
 		List<Resource> GetResourcesByMediaType(string mediaType);
 		List<Resource> GetResourcesBySubject(string subject);
+		List<Resource> GetResourcesByCreator(string creator);
 	}
 }

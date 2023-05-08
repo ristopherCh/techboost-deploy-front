@@ -233,6 +233,81 @@ namespace TechBoost.Repositories
 			}
 		}
 
+		public List<Resource> GetResourcesByCreator(string creator)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+							SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
+							MediaType.Name AS MediaTypeName,
+							ResourceSubject.Id AS ResourceSubjectId,
+							Subject.Id AS SubjectId, Subject.Name AS SubjectName
+							FROM Resource
+							LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id
+							LEFT JOIN ResourceSubject ON Resource.Id = ResourceSubject.ResourceId
+							LEFT JOIN Subject ON Subject.Id = ResourceSubject.SubjectId
+							WHERE Resource.Creator = @Creator";
+
+					DbUtils.AddParameter(cmd, "@Creator", creator);
+
+					using (SqlDataReader reader = cmd.ExecuteReader())
+					{
+						var resources = new List<Resource>();
+						while (reader.Read())
+						{
+							var resourceId = DbUtils.GetInt(reader, "Id");
+							var existingResource = resources.FirstOrDefault(r => r.Id == resourceId);
+							if (existingResource == null)
+							{
+								existingResource = new Resource()
+								{
+									Id = DbUtils.GetInt(reader, "Id"),
+									Name = DbUtils.GetString(reader, "Name"),
+									SubmitterId = DbUtils.GetInt(reader, "SubmitterId"),
+									Creator = DbUtils.GetString(reader, "Creator"),
+									Description = DbUtils.GetString(reader, "Description"),
+									Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+									DatePublished = DbUtils.GetDateTime(reader, "DatePublished"),
+									ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+									ResourceUrl = DbUtils.GetString(reader, "ResourceUrl"),
+									MediaTypeId = DbUtils.GetInt(reader, "MediaTypeId"),
+									MediaType = new MediaType()
+									{
+										Id = DbUtils.GetInt(reader, "MediaTypeId"),
+										Name = DbUtils.GetString(reader, "MediaTypeName")
+									},
+									ResourceSubjects = new List<ResourceSubject>(),
+									Subjects = new List<Subject>()
+								};
+								resources.Add(existingResource);
+							}
+							if (!reader.IsDBNull(reader.GetOrdinal("ResourceSubjectId")))
+							{
+								existingResource.ResourceSubjects.Add(new ResourceSubject()
+								{
+									Id = DbUtils.GetInt(reader, "ResourceSubjectId"),
+									ResourceId = DbUtils.GetInt(reader, "Id"),
+									SubjectId = DbUtils.GetInt(reader, "SubjectId")
+								});
+							}
+							if (!reader.IsDBNull(reader.GetOrdinal("SubjectId")))
+							{
+								existingResource.Subjects.Add(new Subject()
+								{
+									Id = DbUtils.GetInt(reader, "SubjectId"),
+									Name = DbUtils.GetString(reader, "SubjectName")
+								});
+							}
+						}
+						return resources;
+					}
+				}
+			}
+		}
+
 		public Resource GetResourceById(int id)
 		{
 			using (var conn = Connection)
