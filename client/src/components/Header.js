@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import { logout } from "../modules/authManager";
 import {
@@ -10,6 +10,7 @@ import {
   NavbarBrand,
   NavbarToggler,
 } from "reactstrap";
+import NavSearch from "./NavSearch";
 
 const Header = ({ isLoggedIn }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,44 +18,49 @@ const Header = ({ isLoggedIn }) => {
 
   return (
     <Navbar className="color-nav" dark expand="md">
-      <Nav className="mr-auto" navbar>
-        {isLoggedIn && (
-          <NavbarBrand tag={RRNavLink} to="/">
-            TechBoost
-          </NavbarBrand>
-        )}
-        {!isLoggedIn && <NavbarBrand>TechBoost</NavbarBrand>}
-      </Nav>
+      {isLoggedIn && (
+        <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
+          TechBoost
+        </NavbarBrand>
+      )}
+      {!isLoggedIn && <NavbarBrand className="mr-auto">TechBoost</NavbarBrand>}
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
-        <Nav navbar>
+        <Nav className="w-100" navbar>
           {isLoggedIn && (
-            <>
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/resources">
-                  Resources
+            <div className="d-flex flex-row justify-content-between align-items-center w-100">
+              <div className="d-flex flex-row">
+                <NavItem className="d-flex flex-row align-items-center justify-content-center me-4">
+                  <NavSearch />
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/resources">
+                    Resources
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/resources/browse">
+                    Browse
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/resources/create">
+                    Create new resource
+                  </NavLink>
+                </NavItem>
+              </div>
+              <div className="ml-auto">
+                <NavLink
+                  tag={RRNavLink}
+                  to="/login"
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={logout}
+                >
+                  <div>Logout</div>
                 </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/resources/browse">
-                  Browse
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/resources/create">
-                  Create new resource
-                </NavLink>
-              </NavItem>
-              <NavLink
-                tag={RRNavLink}
-                to="/login"
-                className="nav-link"
-                style={{ cursor: "pointer" }}
-                onClick={logout}
-              >
-                <div>Logout</div>
-              </NavLink>
-            </>
+              </div>
+            </div>
           )}
           {!isLoggedIn && (
             <>

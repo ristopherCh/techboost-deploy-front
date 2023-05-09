@@ -47,7 +47,7 @@ const ResourceDetails = () => {
   return (
     <div className="d-flex flex-column align-items-center">
       <div className="w-50 min-width-500px">
-        <ResourceCard resource={resource} />
+        <ResourceCard resource={resource} currentUser={user} />
       </div>
       <Button onClick={() => navigate("edit")}>Edit</Button>
       {Object.keys(user).length > 0 && showButtons ? (
