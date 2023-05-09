@@ -26,6 +26,29 @@ export const addReview = (reviewObj) => {
   });
 };
 
+export const editReview = (reviewObj, reviewId) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/${reviewId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reviewObj),
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else if (resp.status === 401) {
+        throw new Error("Unauthorized");
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to post a review."
+        );
+      }
+    });
+  });
+};
+
 export const getReviewsByResourceId = (resourceId) => {
   return getToken().then((token) => {
     return fetch(`${_apiUrl}/getByResourceId/${resourceId}`, {
@@ -44,3 +67,23 @@ export const getReviewsByResourceId = (resourceId) => {
     });
   });
 }
+
+export const getReviewByResourceIdAndUser = (resourceId) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/getByResourceIdAndUser/${resourceId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch reviews by resource id."
+        );
+      }
+    });
+  });
+}
+

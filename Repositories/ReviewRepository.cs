@@ -87,6 +87,48 @@ namespace TechBoost.Repositories
 			}
 		}
 
+		public Review GetReviewByResourceIdAndUser(int id, int currentUserId)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name 
+							FROM Review 
+							LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id
+							WHERE ResourceId = @ResourceId
+							AND UserId = @CurrentUserId";
+
+					DbUtils.AddParameter(cmd, "@ResourceId", id);
+					DbUtils.AddParameter(cmd, "@CurrentUserId", currentUserId);
+
+					using (SqlDataReader reader = cmd.ExecuteReader())
+					{
+						Review review = null;
+						if (reader.Read())
+						{
+							review = new Review()
+							{
+								Id = DbUtils.GetInt(reader, "Id"),
+								UserId = DbUtils.GetInt(reader, "UserId"),
+								UserProfile = new UserProfile()
+								{
+									Name = DbUtils.GetString(reader, "Name")
+								},
+								ResourceId = DbUtils.GetInt(reader, "ResourceId"),
+								ReviewText = DbUtils.GetString(reader, "ReviewText"),
+								ReviewScore = DbUtils.GetInt(reader, "ReviewScore"),
+								DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+							};
+						}
+						return review;
+					}
+				}
+			}
+		}
+
 		public Review GetReviewById(int id)
 		{
 			using (var conn = Connection)
@@ -148,6 +190,26 @@ namespace TechBoost.Repositories
 					DbUtils.AddParameter(cmd, "@DateCreated", review.DateCreated);
 
 					review.Id = (int)cmd.ExecuteScalar();
+				}
+			}
+		}
+
+		public void Edit(Review review, int id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+						UPDATE Review SET ReviewText = @ReviewText, ReviewScore = @ReviewScore, DateCreated = @DateCreated WHERE Id = @Id
+										";
+					DbUtils.AddParameter(cmd, "@Id", id);
+					DbUtils.AddParameter(cmd, "@ReviewText", review.ReviewText);
+					DbUtils.AddParameter(cmd, "@ReviewScore", review.ReviewScore);
+					DbUtils.AddParameter(cmd, "@DateCreated", review.DateCreated);
+
+					cmd.ExecuteNonQuery();
 				}
 			}
 		}

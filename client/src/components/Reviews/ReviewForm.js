@@ -3,15 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { getResource } from "../../modules/resourceManager";
 import { me } from "../../modules/authManager";
-import { addReview } from "../../modules/reviewManager";
+import {
+  addReview,
+  editReview,
+  getReviewByResourceIdAndUser,
+} from "../../modules/reviewManager";
 
-const ReviewForm = () => {
+const ReviewForm = ({ editing }) => {
   const navigate = useNavigate();
-  const params = useParams();
+  const { resourceId } = useParams();
   const [resource, setResource] = useState({});
   const [reviewText, setReviewText] = useState("");
   const [reviewScore, setReviewScore] = useState(1);
-  const [resourceId, setResourceId] = useState(0);
+  const [reviewId, setReviewId] = useState(0);
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
@@ -19,12 +23,19 @@ const ReviewForm = () => {
   }, []);
 
   useEffect(() => {
-    setResourceId(parseInt(params.resourceId));
-  }, [params]);
+    console.log(editing);
+  }, [editing]);
 
   useEffect(() => {
     if (resourceId !== 0) {
       getResource(resourceId).then(setResource);
+      if (editing) {
+        getReviewByResourceIdAndUser(resourceId).then((review) => {
+          setReviewText(review.reviewText);
+          setReviewScore(review.reviewScore);
+          setReviewId(review.id);
+        });
+      }
     }
   }, [resourceId]);
 
@@ -49,13 +60,21 @@ const ReviewForm = () => {
     addReview(reviewObj).then(() => {
       navigate(`/resources/details/${resourceId}`);
     });
-
-    // Clear form inputs
-    setReviewText("");
-    setReviewScore(1);
   };
 
-  // I loved this! However, I am a dog. My owner tried it as well but I'd say it's geared more towards dogs than people; the bork to English translation is pretty choppy. Otherwise, great examples and very modern.
+  const handleEdit = (event) => {
+    event.preventDefault();
+    let reviewObj = {
+      userId: currentUser.id,
+      resourceId: resourceId,
+      reviewText: reviewText,
+      reviewScore: reviewScore,
+      dateCreated: new Date(),
+    };
+    editReview(reviewObj, reviewId).then(() => {
+      navigate(`/resources/details/${resourceId}`);
+    });
+  };
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
@@ -64,7 +83,7 @@ const ReviewForm = () => {
       <h5>
         {resource.mediaType?.name} by {resource.creator}
       </h5>
-      <Form className="w-75" onSubmit={handleSubmit}>
+      <Form className="w-75">
         <FormGroup>
           <Label for="reviewText">Write your review</Label>
           <Input
@@ -92,9 +111,15 @@ const ReviewForm = () => {
             <option value={5}>5</option>
           </Input>
         </FormGroup>
-        <Button className="btn-color-2" type="submit">
-          Submit Review
-        </Button>
+        {editing ? (
+          <Button className="btn-color-2" type="submit" onClick={handleEdit}>
+            Save edit
+          </Button>
+        ) : (
+          <Button className="btn-color-2" type="submit" onClick={handleSubmit}>
+            Submit Review
+          </Button>
+        )}
       </Form>
     </div>
   );

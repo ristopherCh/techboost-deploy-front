@@ -3,19 +3,26 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button, Card, CardBody, CardHeader, CardLink } from "reactstrap";
 import { getReviewsByResourceId } from "../../modules/reviewManager";
 import ReviewCard from "../Reviews/ReviewCard";
+import RatingDisplay from "../Reviews/RatingDisplay";
 
-const ResourceCard = ({ resource }) => {
+const ResourceCard = ({ resource, currentUser }) => {
   const [reviews, setReviews] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
-  const [rating, setRating] = useState([]);
+  const [hasReviewed, setHasReviewed] = useState(false);
 
   useEffect(() => {
     if (resource.id) {
-      getReviewsByResourceId(resource.id).then((reviews) => {
-        setReviews(reviews);
-      });
+      getReviewsByResourceId(resource.id).then(setReviews);
     }
   }, [resource]);
+
+  useEffect(() => {
+    for (let review of reviews) {
+      if (review.userId === currentUser?.id) {
+        setHasReviewed(true);
+      }
+    }
+  }, [reviews, currentUser]);
 
   const handleSeeReviewsClick = () => {
     setShowReviews(!showReviews);
@@ -29,6 +36,11 @@ const ResourceCard = ({ resource }) => {
         </Link>
       </CardHeader>
       <CardBody>
+        {reviews.length !== 0 ? (
+          <RatingDisplay reviews={reviews} />
+        ) : (
+          <h5 className="text-center mb-3">No reviews</h5>
+        )}
         <div className="d-flex justify-content-around mb-2">
           <a
             type="submit"
@@ -39,13 +51,21 @@ const ResourceCard = ({ resource }) => {
           >
             Go to resource
           </a>
-
-          <Link
-            className="width-50 clean-link btn btn-sm btn-color-2 w-25"
-            to={`/resources/${resource.id}/addreview`}
-          >
-            Add a review
-          </Link>
+          {hasReviewed ? (
+            <Link
+              className="width-50 clean-link btn btn-sm btn-color-3 w-25"
+              to={`/resources/${resource.id}/editreview`}
+            >
+              Edit your review
+            </Link>
+          ) : (
+            <Link
+              className="width-50 clean-link btn btn-sm btn-color-2 w-25"
+              to={`/resources/${resource.id}/addreview`}
+            >
+              Add a review
+            </Link>
+          )}
         </div>
         <strong>Media Type:</strong>{" "}
         <Link
@@ -92,7 +112,7 @@ const ResourceCard = ({ resource }) => {
               <div>
                 <h3 className="m-3">Reviews</h3>
                 <div className="m-2">
-                  {reviews.slice(0.5).map((review) => (
+                  {reviews.slice(0, 3).map((review) => (
                     <ReviewCard key={review.id} review={review} />
                   ))}
                 </div>

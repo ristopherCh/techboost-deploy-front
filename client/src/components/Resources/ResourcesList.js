@@ -7,11 +7,17 @@ import {
   getResourcesBySubject,
 } from "../../modules/resourceManager";
 import ResourceCard from "./ResourceCard";
+import { me } from "../../modules/authManager";
 
 const ResourceList = () => {
   const params = useParams();
   const [resources, setResources] = useState([]);
   const [header, setHeader] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    me().then(setCurrentUser);
+  }, []);
 
   useEffect(() => {
     if (Object.keys(params).length === 0) {
@@ -38,7 +44,11 @@ const ResourceList = () => {
       <h2 className="text-center m-2">{header}</h2>
       <div className="w-50 min-width-500px">
         {resources.map((resource) => (
-          <ResourceCard key={resource.id} resource={resource} />
+          <ResourceCard
+            key={resource.id}
+            resource={resource}
+            currentUser={currentUser}
+          />
         ))}
       </div>
     </div>

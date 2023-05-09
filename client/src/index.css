@@ -23,6 +23,11 @@ code {
   position: absolute;
 }
 
+.searchbar-alignment {
+  top: 40px;
+  z-index: 9999;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -43,10 +48,6 @@ code {
   background-color: rgb(98, 205, 255);
 }
 
-.btn-color:active {
-  background-color: rgb(225, 245, 255);
-}
-
 .btn-color-2 {
   background-color: rgb(227, 163, 255);
 }
@@ -55,8 +56,12 @@ code {
   background-color: rgb(209, 103, 255);
 }
 
-.btn-color-2:active {
-  background-color: rgb(235, 189, 255);
+.btn-color-3 {
+  background-color: rgb(255, 163, 223);
+}
+
+.btn-color-3:hover {
+  background-color: rgb(255, 99, 200);
 }
 
 .clean-link {
@@ -78,4 +83,20 @@ code {
 
 .text-black {
   color: black;
+}
+
+.text-grey {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.searchbar-height {
+  height: 25px;
+}
+
+.cursor-arrow {
+  cursor: default;
+}
+
+.width-100 {
+  width: 100%;
 }
