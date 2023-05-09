@@ -65,5 +65,17 @@ code {
 }
 
 .width-50 {
-  width: 50%
+  width: 50%;
+}
+
+.textarea-height-200 {
+  height: 200px;
+}
+
+.border-none {
+  border: none;
+}
+
+.text-black {
+  color: black;
 }

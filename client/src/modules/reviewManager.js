@@ -25,3 +25,22 @@ export const addReview = (reviewObj) => {
     });
   });
 };
+
+export const getReviewsByResourceId = (resourceId) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/getByResourceId/${resourceId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch reviews by resource id."
+        );
+      }
+    });
+  });
+}

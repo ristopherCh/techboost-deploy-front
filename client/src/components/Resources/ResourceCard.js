@@ -1,7 +1,25 @@
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button, Card, CardBody, CardHeader, CardLink } from "reactstrap";
+import { getReviewsByResourceId } from "../../modules/reviewManager";
+import ReviewCard from "../Reviews/ReviewCard";
 
 const ResourceCard = ({ resource }) => {
+  const [reviews, setReviews] = useState([]);
+  const [showReviews, setShowReviews] = useState(false);
+  const [rating, setRating] = useState([]);
+
+  useEffect(() => {
+    if (resource.id) {
+      getReviewsByResourceId(resource.id).then((reviews) => {
+        setReviews(reviews);
+      });
+    }
+  }, [resource]);
+
+  const handleSeeReviewsClick = () => {
+    setShowReviews(!showReviews);
+  };
 
   return (
     <Card className="m-2">
@@ -11,16 +29,32 @@ const ResourceCard = ({ resource }) => {
         </Link>
       </CardHeader>
       <CardBody>
-        <div>
-          <strong>Media Type:</strong>{" "}
-          <Link
-            className="clean-link"
-            to={`/resources/mediaTypes/${resource.mediaType?.name}`}
+        <div className="d-flex justify-content-around mb-2">
+          <a
+            type="submit"
+            href={resource.resourceUrl}
+            className="width-50 clean-link btn btn-sm btn-color w-25"
+            target="_blank"
+            rel="noreferrer noopener"
           >
-            {" "}
-            {resource.mediaType?.name}
+            Go to resource
+          </a>
+
+          <Link
+            className="width-50 clean-link btn btn-sm btn-color-2 w-25"
+            to={`/resources/${resource.id}/addreview`}
+          >
+            Add a review
           </Link>
         </div>
+        <strong>Media Type:</strong>{" "}
+        <Link
+          className="clean-link"
+          to={`/resources/mediaTypes/${resource.mediaType?.name}`}
+        >
+          {" "}
+          {resource.mediaType?.name}
+        </Link>
         <div className="mt-2">
           <strong>Description</strong>
         </div>
@@ -52,24 +86,45 @@ const ResourceCard = ({ resource }) => {
             </Link>
           ))}
         </ul>
-        <div className="d-flex justify-content-around">
-          <a
-            type="submit"
-            href={resource.resourceUrl}
-            className="width-50 clean-link btn btn-sm btn-color w-25"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Go to resource
-          </a>
-          
-          <NavLink
-            className="width-50 clean-link btn btn-sm btn-color-2 w-25"
-            to={`/resources/${resource.id}/addreview`}
-          >
-            Add a review
-          </NavLink>
-        </div>
+        {reviews.length > 0 ? (
+          <div id="reviews-box">
+            {showReviews ? (
+              <div>
+                <h3 className="m-3">Reviews</h3>
+                <div className="m-2">
+                  {reviews.slice(0.5).map((review) => (
+                    <ReviewCard key={review.id} review={review} />
+                  ))}
+                </div>
+                <div className="d-flex justify-content-around">
+                  <Button
+                    className="btn-sm btn-color-2 border-none text-black"
+                    onClick={handleSeeReviewsClick}
+                  >
+                    Hide reviews
+                  </Button>
+                  <Link
+                    className="width-50 clean-link btn btn-sm btn-color-2 w-25"
+                    to={`/resources/${resource.id}/allreviews`}
+                  >
+                    See all reviews
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="d-flex justify-content-center">
+                <Button
+                  className="btn-sm btn-color-2 border-none text-black"
+                  onClick={handleSeeReviewsClick}
+                >
+                  Show reviews
+                </Button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div></div>
+        )}
       </CardBody>
     </Card>
   );

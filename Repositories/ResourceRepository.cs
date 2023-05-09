@@ -114,7 +114,6 @@ namespace TechBoost.Repositories
 							{
 								existingResource = new Resource()
 								{
-									Id = DbUtils.GetInt(reader, "Id"),
 									Name = DbUtils.GetString(reader, "Name"),
 									SubmitterId = DbUtils.GetInt(reader, "SubmitterId"),
 									Creator = DbUtils.GetString(reader, "Creator"),
