@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import { getResource } from "../../modules/resourceManager";
 import { me } from "../../modules/authManager";
 import { addReview } from "../../modules/reviewManager";
 
 const ReviewForm = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const [resource, setResource] = useState({});
   const [reviewText, setReviewText] = useState("");
@@ -42,22 +43,32 @@ const ReviewForm = () => {
       userId: currentUser.id,
       resourceId: resourceId,
       reviewText: reviewText,
-      reviewScore: reviewScore``,
+      reviewScore: reviewScore,
+      dateCreated: new Date(),
     };
-    addReview(reviewObj);
+    addReview(reviewObj).then(() => {
+      navigate(`/resources/details/${resourceId}`);
+    });
 
     // Clear form inputs
     setReviewText("");
     setReviewScore(1);
   };
 
+  // I loved this! However, I am a dog. My owner tried it as well but I'd say it's geared more towards dogs than people; the bork to English translation is pretty choppy. Otherwise, great examples and very modern.
+
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
-      <h2 className="text-center m-4">Add a Review for</h2>
+      <h4 className="text-center m-4">Add a Review for:</h4>
+      <h2 className="mb-4">{resource?.name}</h2>
+      <h5>
+        {resource.mediaType?.name} by {resource.creator}
+      </h5>
       <Form className="w-75" onSubmit={handleSubmit}>
         <FormGroup>
           <Label for="reviewText">Write your review</Label>
           <Input
+            className="textarea-height-200"
             type="textarea"
             name="reviewText"
             id="reviewText"
