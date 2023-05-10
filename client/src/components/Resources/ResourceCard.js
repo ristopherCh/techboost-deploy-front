@@ -4,11 +4,17 @@ import { Button, Card, CardBody, CardHeader, CardLink } from "reactstrap";
 import { getReviewsByResourceId } from "../../modules/reviewManager";
 import ReviewCard from "../Reviews/ReviewCard";
 import RatingDisplay from "../Reviews/RatingDisplay";
+import { me } from "../../modules/authManager";
 
 const ResourceCard = ({ resource, currentUser }) => {
   const [reviews, setReviews] = useState([]);
+  const [user, setUser] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
+
+  useEffect(() => {
+    me().then(setUser);
+  }, []);
 
   useEffect(() => {
     if (resource.id) {
@@ -113,7 +119,14 @@ const ResourceCard = ({ resource, currentUser }) => {
                 <h3 className="m-3">Reviews</h3>
                 <div className="m-2">
                   {reviews.slice(0, 3).map((review) => (
-                    <ReviewCard key={review.id} review={review} />
+                    <ReviewCard
+                      resourceId={resource.id}
+                      getWhicheverReviews={getReviewsByResourceId}
+                      user={user}
+                      key={review.id}
+                      review={review}
+                      setReviews={setReviews}
+                    />
                   ))}
                 </div>
                 <div className="d-flex justify-content-around">

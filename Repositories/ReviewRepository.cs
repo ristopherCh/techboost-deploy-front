@@ -87,6 +87,46 @@ namespace TechBoost.Repositories
 			}
 		}
 
+		public List<Review> GetReviewsByUserId(int id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name 
+							FROM Review 
+							LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id
+							WHERE UserId = @UserId";
+
+					DbUtils.AddParameter(cmd, "@UserId", id);
+
+					using (SqlDataReader reader = cmd.ExecuteReader())
+					{
+						var reviews = new List<Review>();
+						while (reader.Read())
+						{
+							reviews.Add(new Review()
+							{
+								Id = DbUtils.GetInt(reader, "Id"),
+								UserId = DbUtils.GetInt(reader, "UserId"),
+								UserProfile = new UserProfile()
+								{
+									Name = DbUtils.GetString(reader, "Name")
+								},
+								ResourceId = DbUtils.GetInt(reader, "ResourceId"),
+								ReviewText = DbUtils.GetString(reader, "ReviewText"),
+								ReviewScore = DbUtils.GetInt(reader, "ReviewScore"),
+								DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+							});
+						}
+						return reviews;
+					}
+				}
+			}
+		}
+
 		public Review GetReviewByResourceIdAndUser(int id, int currentUserId)
 		{
 			using (var conn = Connection)
@@ -209,6 +249,20 @@ namespace TechBoost.Repositories
 					DbUtils.AddParameter(cmd, "@ReviewScore", review.ReviewScore);
 					DbUtils.AddParameter(cmd, "@DateCreated", review.DateCreated);
 
+					cmd.ExecuteNonQuery();
+				}
+			}
+		}
+
+		public void DeleteReview(int id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = "DELETE FROM Review WHERE Id = @Id";
+					DbUtils.AddParameter(cmd, "@id", id);
 					cmd.ExecuteNonQuery();
 				}
 			}

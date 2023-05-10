@@ -7,10 +7,10 @@ import ResourceDetails from "./Resources/ResourceDetails";
 import ResourceForm from "./Resources/ResourceForm";
 import ResourceEdit from "./Resources/ResourceEdit";
 import ResourceBrowse from "./Resources/ResourceBrowse";
-import ReviewForm from "./Reviews/ReviewForm";
 import ReviewsList from "./Reviews/ReviewsList";
 import ReviewEdit from "./Reviews/ReviewEdit";
 import ReviewAdd from "./Reviews/ReviewAdd";
+import ReviewUserList from "./Reviews/ReviewUserList";
 
 const ApplicationViews = ({ isLoggedIn }) => {
   return (
@@ -22,6 +22,7 @@ const ApplicationViews = ({ isLoggedIn }) => {
         />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="reviews/user" element=<ReviewUserList /> />
         <Route path="resources">
           <Route index element={<ResourceList />} />
           <Route path="subjects/:subject" element=<ResourceList /> />

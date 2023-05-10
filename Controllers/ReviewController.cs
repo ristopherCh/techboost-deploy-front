@@ -38,6 +38,12 @@ namespace TechBoost.Controllers
 			return Ok(_reviewRepository.GetReviewsByResourceId(id));
 		}
 
+		[HttpGet("getByUserId/{id}")]
+		public IActionResult GetReviewsByUserId(int id)
+		{
+			return Ok(_reviewRepository.GetReviewsByUserId(id));
+		}
+
 		[HttpGet("getByResourceIdAndUser/{id}")]
 		public IActionResult GetReviewByResourceIdAndUser(int id)
 		{
@@ -57,6 +63,13 @@ namespace TechBoost.Controllers
 		{
 			_reviewRepository.Edit(review, id);
 			return CreatedAtAction("GetReviewById", new { id = review.Id }, review);
+		}
+
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id)
+		{
+			_reviewRepository.DeleteReview(id);
+			return NoContent();
 		}
 
 		private UserProfile GetCurrentUserProfile()
