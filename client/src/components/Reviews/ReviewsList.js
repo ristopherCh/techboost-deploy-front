@@ -10,7 +10,7 @@ const ReviewsList = () => {
   const { resourceId } = useParams();
   const [reviews, setReviews] = useState([]);
   const [resource, setResource] = useState({});
-  const [rating, setRating] = useState([]);
+  // const [rating, setRating] = useState([]);
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -23,15 +23,15 @@ const ReviewsList = () => {
 
       getReviewsByResourceId(resourceId).then((reviews) => {
         setReviews(reviews);
-        setRating(
-          (
-            reviews.reduce(
-              (accumulator, currentValue) =>
-                accumulator + currentValue.reviewScore,
-              0
-            ) / reviews.length
-          ).toFixed(1)
-        );
+        // setRating(
+        //   (
+        //     reviews.reduce(
+        //       (accumulator, currentValue) =>
+        //         accumulator + currentValue.reviewScore,
+        //       0
+        //     ) / reviews.length
+        //   ).toFixed(1)
+        // );
       });
     }
   }, [resourceId]);
@@ -43,7 +43,13 @@ const ReviewsList = () => {
       <RatingDisplay reviews={reviews} />
       {reviews.map((review) => (
         <div key={review.id} className="w-75 d-flex flex-column mx-auto">
-          <ReviewCard resourceId={resourceId} review={review} user={user} setReviews={setReviews} getWhicheverReviews={getReviewsByResourceId} />
+          <ReviewCard
+            resourceId={resourceId}
+            review={review}
+            user={user}
+            setReviews={setReviews}
+            getWhicheverReviews={getReviewsByResourceId}
+          />
         </div>
       ))}
     </div>

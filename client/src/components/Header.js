@@ -49,7 +49,7 @@ const Header = ({ isLoggedIn }) => {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/resources/user">
+                  <NavLink tag={RRNavLink} to="/resources/users/current">
                     My resources
                   </NavLink>
                 </NavItem>
