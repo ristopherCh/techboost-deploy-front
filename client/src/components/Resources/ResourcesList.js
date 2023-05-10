@@ -41,7 +41,13 @@ const ResourceList = () => {
 
   return (
     <div className="d-flex flex-column align-items-center">
+      <h4 className="mt-2">All results for:</h4>
       <h2 className="text-center m-2">{header}</h2>
+      {resources.length === 0 ? (
+        <h3 className="mt-5">No resources match this search!</h3>
+      ) : (
+        <></>
+      )}
       <div className="w-50 min-width-500px">
         {resources.map((resource) => (
           <ResourceCard

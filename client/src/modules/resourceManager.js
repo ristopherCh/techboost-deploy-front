@@ -136,11 +136,14 @@ export const editResource = (resource) => {
 };
 
 export const deleteResource = (id) => {
-  return fetch(`${_apiUrl}/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(id),
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(id),
+    });
   });
 };

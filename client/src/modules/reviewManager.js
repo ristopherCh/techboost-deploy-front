@@ -66,7 +66,26 @@ export const getReviewsByResourceId = (resourceId) => {
       }
     });
   });
-}
+};
+
+export const getReviewsByUserId = (userId) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/getByUserId/${userId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch reviews by user id."
+        );
+      }
+    });
+  });
+};
 
 export const getReviewByResourceIdAndUser = (resourceId) => {
   return getToken().then((token) => {
@@ -85,5 +104,17 @@ export const getReviewByResourceIdAndUser = (resourceId) => {
       }
     });
   });
-}
+};
 
+export const deleteReview = (id) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(id),
+    });
+  });
+};

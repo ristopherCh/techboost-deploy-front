@@ -48,6 +48,16 @@ const Header = ({ isLoggedIn }) => {
                     Create new resource
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/resources/user">
+                    My resources
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/reviews/user">
+                    My reviews
+                  </NavLink>
+                </NavItem>
               </div>
               <div className="ml-auto">
                 <NavLink

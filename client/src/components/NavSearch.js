@@ -10,7 +10,7 @@ const NavSearch = () => {
   const [filteredSubjects, setFilteredSubjects] = useState([]);
   const [allSubjects, setAllSubjects] = useState([]);
   const [allMediaTypes, setAllMediaTypes] = useState([]);
-  const [subjectSearch, setSubjectSearch] = useState("");
+  const [searchPhrase, setSearchPhrase] = useState("");
   const [searchWasChosen, setSearchWasChosen] = useState(false);
   const [allSearchableTerms, setAllSearchableTerms] = useState([]);
   const navigate = useNavigate();
@@ -26,13 +26,13 @@ const NavSearch = () => {
 
   useEffect(() => {
     let filteringSubjects = allSubjects.filter((subject) =>
-      subject.name.toLowerCase().includes(subjectSearch.toLowerCase())
+      subject.name.toLowerCase().includes(searchPhrase.toLowerCase())
     );
     setFilteredSubjects(filteringSubjects);
-    if (subjectSearch === "") {
+    if (searchPhrase === "") {
       setFilteredSubjects([]);
     }
-  }, [subjectSearch]);
+  }, [searchPhrase]);
 
   useEffect(() => {
     if (searchWasChosen) {
@@ -41,19 +41,19 @@ const NavSearch = () => {
     }
   }, [searchWasChosen]);
 
-  const handleSubjectSearchChange = (event) => {
-    setSubjectSearch(event.target.value);
+  const handleSearchPhraseChange = (event) => {
+    setSearchPhrase(event.target.value);
   };
 
   const handleSearchSelection = (event) => {
-    setSubjectSearch(event.target.innerText);
+    setSearchPhrase(event.target.innerText);
     setSearchWasChosen(true);
   };
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    navigate(`/resources/subjects/${subjectSearch}`);
-    setSubjectSearch("");
+    navigate(`/resources/subjects/${searchPhrase}`);
+    setSearchPhrase("");
   };
 
   return (
@@ -67,8 +67,8 @@ const NavSearch = () => {
           type="text"
           placeholder=""
           name="search"
-          value={subjectSearch ? subjectSearch : ""}
-          onChange={handleSubjectSearchChange}
+          value={searchPhrase ? searchPhrase : ""}
+          onChange={handleSearchPhraseChange}
         />
         <Button className="btn-color-2 btn-sm">
           <FontAwesomeIcon icon={faSearch} />
