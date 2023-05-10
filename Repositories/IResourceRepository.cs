@@ -13,5 +13,6 @@ namespace TechBoost.Repositories
 		List<Resource> GetResourcesByMediaType(string mediaType);
 		List<Resource> GetResourcesBySubject(string subject);
 		List<Resource> GetResourcesByCreator(string creator);
+		List<Resource> GetResourcesByUserId(int userId);
 	}
 }

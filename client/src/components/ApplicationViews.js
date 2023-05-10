@@ -11,6 +11,7 @@ import ReviewsList from "./Reviews/ReviewsList";
 import ReviewEdit from "./Reviews/ReviewEdit";
 import ReviewAdd from "./Reviews/ReviewAdd";
 import ReviewUserList from "./Reviews/ReviewUserList";
+import ResourceUserList from "./Resources/ResourceUserList";
 
 const ApplicationViews = ({ isLoggedIn }) => {
   return (
@@ -31,6 +32,7 @@ const ApplicationViews = ({ isLoggedIn }) => {
           <Route path=":resourceId/allreviews" element=<ReviewsList /> />
           <Route path="mediaTypes/:mediaType" element=<ResourceList /> />
           <Route path="creators/:creator" element=<ResourceList /> />
+          <Route path="users/:user" element=<ResourceList /> />
           <Route path="browse" element={<ResourceBrowse />} />
           <Route path="details/:id">
             <Route index element={<ResourceDetails />} />

@@ -49,7 +49,6 @@ const ResourceDetails = () => {
       <div className="w-50 min-width-500px">
         <ResourceCard resource={resource} currentUser={user} />
       </div>
-      <Button onClick={() => navigate("edit")}>Edit</Button>
       {Object.keys(user).length > 0 && showButtons ? (
         <div>
           <Button className="m-3" onClick={() => navigate("edit")}>

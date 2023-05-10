@@ -5,6 +5,7 @@ import {
   getResourcesByCreator,
   getResourcesByMediaType,
   getResourcesBySubject,
+  getResourcesByUserId,
 } from "../../modules/resourceManager";
 import ResourceCard from "./ResourceCard";
 import { me } from "../../modules/authManager";
@@ -24,6 +25,7 @@ const ResourceList = () => {
       getAllResources().then(setResources);
       setHeader("All Resources");
     } else {
+      console.log(params);
       if (params.mediaType) {
         getResourcesByMediaType(params.mediaType).then(setResources);
         setHeader(params.mediaType);
@@ -38,6 +40,18 @@ const ResourceList = () => {
       }
     }
   }, [params]);
+
+  useEffect(() => {
+    if (
+      Object.keys(params).length !== 0 &&
+      Object.keys(currentUser).length !== 0
+    ) {
+      if (params.user) {
+        getResourcesByUserId(currentUser.id).then(setResources);
+        setHeader(currentUser.name);
+      }
+    }
+  }, [params, currentUser]);
 
   return (
     <div className="d-flex flex-column align-items-center">
