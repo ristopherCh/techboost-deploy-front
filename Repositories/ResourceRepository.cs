@@ -240,8 +240,19 @@ namespace TechBoost.Repositories
 				conn.Open();
 				using (var cmd = conn.CreateCommand())
 				{
-					cmd.CommandText = @"
-							SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
+					cmd.CommandText = 
+							//@"
+							//SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
+							//MediaType.Name AS MediaTypeName,
+							//ResourceSubject.Id AS ResourceSubjectId,
+							//Subject.Id AS SubjectId, Subject.Name AS SubjectName
+							//FROM Resource
+							//LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id
+							//LEFT JOIN ResourceSubject ON Resource.Id = ResourceSubject.ResourceId
+							//LEFT JOIN Subject ON Subject.Id = ResourceSubject.SubjectId
+							//WHERE Subject.Name = @Subject";
+
+							@"SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
 							MediaType.Name AS MediaTypeName,
 							ResourceSubject.Id AS ResourceSubjectId,
 							Subject.Id AS SubjectId, Subject.Name AS SubjectName
@@ -249,7 +260,11 @@ namespace TechBoost.Repositories
 							LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id
 							LEFT JOIN ResourceSubject ON Resource.Id = ResourceSubject.ResourceId
 							LEFT JOIN Subject ON Subject.Id = ResourceSubject.SubjectId
-							WHERE Subject.Name = @Subject";
+							WHERE Resource.Id IN 
+								(SELECT Resource.Id FROM Resource 
+								LEFT JOIN ResourceSubject ON ResourceSubject.ResourceId = Resource.Id 
+								LEFT JOIN Subject ON ResourceSubject.SubjectId = Subject.Id 
+								WHERE Subject.Name = @Subject)";
 
 					DbUtils.AddParameter(cmd, "@Subject", subject);
 

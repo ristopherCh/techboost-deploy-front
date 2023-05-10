@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, } from "react-router-dom";
 import { Button, Card, CardBody, CardHeader, CardLink } from "reactstrap";
 import { getReviewsByResourceId } from "../../modules/reviewManager";
 import ReviewCard from "../Reviews/ReviewCard";

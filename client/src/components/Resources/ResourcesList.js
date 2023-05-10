@@ -25,7 +25,6 @@ const ResourceList = () => {
       getAllResources().then(setResources);
       setHeader("All Resources");
     } else {
-      console.log(params);
       if (params.mediaType) {
         getResourcesByMediaType(params.mediaType).then(setResources);
         setHeader(params.mediaType);

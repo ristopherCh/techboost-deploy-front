@@ -28,6 +28,7 @@ const ResourceForm = ({ resourceEditable }) => {
   const [filteredSubjects, setFilteredSubjects] = useState([]);
   const [subjectSearch, setSubjectSearch] = useState("");
   const [addedSubjects, setAddedSubjects] = useState([]);
+  const [header, setHeader] = useState("Create a new resource");
   const [addedResourceSubjects, setAddedResourceSubjects] = useState([]);
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const ResourceForm = ({ resourceEditable }) => {
       }
       setAddedSubjects(resourceEditable.subjects);
     }
+    setHeader(`Edit: ${resourceEditable.name}`);
   }, [resourceEditable]);
 
   const handleInputChange = (event) => {
@@ -170,6 +172,7 @@ const ResourceForm = ({ resourceEditable }) => {
 
   return (
     <Form className="m-5">
+      <h3 className="text-center">{header}</h3>
       <FormGroup>
         <Label for="name">Name</Label>
         <Input
@@ -269,12 +272,12 @@ const ResourceForm = ({ resourceEditable }) => {
           <div>Subjects:</div>
           <ul>
             {addedSubjects?.map((subject) => (
-              <li className="d-flex flex-row" key={subject.id}>
+              <li className="mt-2 d-flex flex-row justify-content-between width-200" key={subject.id}>
                 <div>{subject.name}</div>
                 <button
                   onClick={handleRemoveAddedSubject}
                   value={subject.id}
-                  className="ms-2"
+                  className="ms-2 btn btn-sm btn-color-dark text-white"
                 >
                   Remove
                 </button>

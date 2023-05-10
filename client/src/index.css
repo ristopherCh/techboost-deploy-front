@@ -64,6 +64,14 @@ code {
   background-color: rgb(255, 99, 200);
 }
 
+.btn-color-dark {
+  background-color: rgb(93, 23, 23);
+}
+
+.btn-color-dark:hover {
+  background-color: rgb(150, 36, 36);
+}
+
 .clean-link {
   color: inherit;
   text-decoration: none;
@@ -85,6 +93,10 @@ code {
   color: black;
 }
 
+.text-white {
+  color: white;
+}
+
 .text-grey {
   color: rgba(255, 255, 255, 0.55);
 }
@@ -99,4 +111,16 @@ code {
 
 .width-100 {
   width: 100%;
+}
+
+.max-width-250 {
+  max-width: 250px;
+}
+
+.min-width-100 {
+  min-width: 100px;
+}
+
+.width-200 {
+  width: 200px;
 }
