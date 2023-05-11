@@ -65,8 +65,8 @@ const NavSearch = () => {
           value={searchPhrase ? searchPhrase : ""}
           onChange={handleSearchPhraseChange}
         />
-        <Button className="btn-color-2 btn-sm">
-          <FontAwesomeIcon icon={faSearch} />
+        <Button className="color-medium btn-sm">
+          <FontAwesomeIcon icon={faSearch} className="text-black" />
         </Button>
       </Form>
       <ul className="list-group searchbar-alignment" id="results">

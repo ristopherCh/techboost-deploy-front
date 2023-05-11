@@ -54,13 +54,13 @@ const ReviewCard = (props) => {
     return (
       <>
         <Link
-          className="btn-sm btn btn-color-3 border-none text-black me-5"
+          className="btn-sm btn color-secondary border-none text-black me-5 box-shadow-2"
           to={`/resources/${review.resourceId}/editreview`}
         >
           Edit
         </Link>
         <Button
-          className="btn btn-sm btn-color-2 border-none text-black me-5"
+          className="btn btn-sm btn-delete border-none text-black me-5 box-shadow-2"
           onClick={handleDeleteButton}
         >
           Delete
@@ -75,7 +75,7 @@ const ReviewCard = (props) => {
   };
 
   return (
-    <Card className="m-2" key={review.id}>
+    <Card className="m-2 box-shadow" key={review.id}>
       <CardBody>
         <div className="d-flex flex-row justify-content-between">
           <div>

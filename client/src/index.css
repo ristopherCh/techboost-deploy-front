@@ -28,6 +28,12 @@ code {
   z-index: 9999;
 }
 
+@media (max-width: 992px) {
+  .searchbar-alignment {
+    top: 75px;
+  }
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -49,11 +55,11 @@ code {
 }
 
 .btn-color-2 {
-  background-color: rgb(227, 163, 255);
+  background-color: rgb(203, 191, 255);
 }
 
 .btn-color-2:hover {
-  background-color: rgb(209, 103, 255);
+  background-color: rgb(131, 103, 255);
 }
 
 .btn-color-3 {
@@ -70,6 +76,26 @@ code {
 
 .btn-color-dark:hover {
   background-color: rgb(150, 36, 36);
+}
+
+.btn-color-light {
+  background-color: rgb(255, 255, 255);
+}
+
+.btn-color-light:hover {
+  background-color: rgba(176, 164, 164, 0.637);
+}
+
+.btn-delete {
+  background-color: rgb(255, 148, 148);
+}
+
+.btn-delete:hover {
+  background-color: rgb(255, 99, 200);
+}
+
+.border {
+  border: #5b2f87;
 }
 
 .clean-link {
@@ -123,4 +149,57 @@ code {
 
 .width-200 {
   width: 200px;
+}
+
+.height-250 {
+  height: 250px;
+}
+
+.color-light {
+  background-color: #fffbeb;
+}
+
+.color-light-2 {
+  background-color: #ffe7cc;
+}
+
+.color-medium {
+  background-color: #e1d4bb;
+}
+
+.color-medium-2 {
+  background-color: #db96dd;
+}
+
+.color-dark {
+  background-color: #537188;
+}
+
+.color-dark-2 {
+  background-color: #8ba9c2;
+}
+
+.color-secondary {
+  background-color: #a0cff3;
+}
+
+.FFE7CC {
+  background-color: #ffe7cc;
+}
+
+.navbar-color {
+  background: linear-gradient(to right, #537188, #b867bb);
+}
+
+.box-shadow {
+  box-shadow: 0 0 5px rgba(184, 168, 168, 0.5);
+}
+
+.box-shadow-2 {
+  box-shadow: 0 2px 4px rgba(103, 97, 97, 0.5);
+}
+
+.navbar-brand {
+  font-size: 24px;
+  padding: 0px;
 }

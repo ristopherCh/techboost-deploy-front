@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../Home";
 import Login from "./Login";
 import Register from "./Register";
-import ResourceList from "./Resources/ResourcesList";
+import ResourceList from "./Resources/ResourceList";
 import ResourceDetails from "./Resources/ResourceDetails";
 import ResourceForm from "./Resources/ResourceForm";
 import ResourceEdit from "./Resources/ResourceEdit";

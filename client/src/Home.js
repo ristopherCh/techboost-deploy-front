@@ -8,9 +8,9 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    <div className="d-flex justify-content-center align-items-center height-250">
       <h1>TechBoost</h1>
-    </>
+    </div>
   );
 };
 

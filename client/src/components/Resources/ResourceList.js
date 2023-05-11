@@ -9,12 +9,14 @@ import {
 } from "../../modules/resourceManager";
 import ResourceCard from "./ResourceCard";
 import { me } from "../../modules/authManager";
+import { ClipLoader } from "react-spinners";
 
 const ResourceList = () => {
   const params = useParams();
   const [resources, setResources] = useState([]);
   const [header, setHeader] = useState("");
   const [currentUser, setCurrentUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     me().then(setCurrentUser);
@@ -41,6 +43,12 @@ const ResourceList = () => {
   }, [params]);
 
   useEffect(() => {
+    if (resources.length > 0 && Object.keys(currentUser).length > 0) {
+      setLoading(false);
+    }
+  }, [resources, currentUser]);
+
+  useEffect(() => {
     if (
       Object.keys(params).length !== 0 &&
       Object.keys(currentUser).length !== 0
@@ -54,22 +62,29 @@ const ResourceList = () => {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <h4 className="mt-2">All results for:</h4>
-      <h2 className="text-center m-2">{header}</h2>
-      {resources.length === 0 ? (
-        <h3 className="mt-5">No resources match this search!</h3>
+      {loading ? (
+        <ClipLoader loading={loading} />
       ) : (
-        <></>
+        <>
+          <h4 className="mt-2">All results for:</h4>
+          <h2 className="text-center m-2">{header}</h2>
+          {resources.length === 0 ? (
+            <h3 className="mt-5">No resources match this search!</h3>
+          ) : (
+            <></>
+          )}
+          <div className="w-50 min-width-500px">
+            {resources.map((resource) => (
+              <ResourceCard
+                reviewsShowing={false}
+                currentUser={currentUser}
+                key={resource.id}
+                resource={resource}
+              />
+            ))}
+          </div>
+        </>
       )}
-      <div className="w-50 min-width-500px">
-        {resources.map((resource) => (
-          <ResourceCard
-            currentUser={currentUser}
-            key={resource.id}
-            resource={resource}
-          />
-        ))}
-      </div>
     </div>
   );
 };

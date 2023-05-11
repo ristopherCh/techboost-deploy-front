@@ -17,7 +17,7 @@ const Header = ({ isLoggedIn }) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <Navbar className="color-nav" dark expand="md">
+    <Navbar className="navbar-color" dark expand="lg">
       {isLoggedIn && (
         <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
           TechBoost
@@ -26,39 +26,41 @@ const Header = ({ isLoggedIn }) => {
       {!isLoggedIn && <NavbarBrand className="mr-auto">TechBoost</NavbarBrand>}
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar>
-        <Nav className="w-100" navbar>
+        <Nav className="mr-auto w-100" navbar>
           {isLoggedIn && (
-            <div className="d-flex flex-row justify-content-between align-items-center w-100">
-              <div className="d-flex flex-row">
-                <NavItem className="d-flex flex-row align-items-center justify-content-center me-4">
-                  <NavSearch />
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/resources">
-                    Resources
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/resources/browse">
-                    Browse
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/resources/create">
-                    Create new resource
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/resources/users/current">
-                    My resources
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={RRNavLink} to="/reviews/user">
-                    My reviews
-                  </NavLink>
-                </NavItem>
-              </div>
+            <>
+              <NavItem
+                id="searchbar-container"
+                className="d-flex flex-column justify-content-center"
+              >
+                <NavSearch />
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/resources">
+                  Resources
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/resources/browse">
+                  Browse
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/resources/create">
+                  Create resource
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/resources/users/current">
+                  My resources
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/reviews/user">
+                  My reviews
+                </NavLink>
+              </NavItem>
+
               <div className="ml-auto">
                 <NavLink
                   tag={RRNavLink}
@@ -70,7 +72,7 @@ const Header = ({ isLoggedIn }) => {
                   <div>Logout</div>
                 </NavLink>
               </div>
-            </div>
+            </>
           )}
           {!isLoggedIn && (
             <>

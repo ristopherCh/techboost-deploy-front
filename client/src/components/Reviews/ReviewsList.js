@@ -10,7 +10,6 @@ const ReviewsList = () => {
   const { resourceId } = useParams();
   const [reviews, setReviews] = useState([]);
   const [resource, setResource] = useState({});
-  // const [rating, setRating] = useState([]);
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -22,19 +21,16 @@ const ReviewsList = () => {
       getResource(resourceId).then(setResource);
 
       getReviewsByResourceId(resourceId).then((reviews) => {
+        reviews.sort((a, b) => {
+          if (a.userId === user.id) {
+            return -1;
+          }
+          return 0;
+        });
         setReviews(reviews);
-        // setRating(
-        //   (
-        //     reviews.reduce(
-        //       (accumulator, currentValue) =>
-        //         accumulator + currentValue.reviewScore,
-        //       0
-        //     ) / reviews.length
-        //   ).toFixed(1)
-        // );
       });
     }
-  }, [resourceId]);
+  }, [user]);
 
   return (
     <div className="m-3">

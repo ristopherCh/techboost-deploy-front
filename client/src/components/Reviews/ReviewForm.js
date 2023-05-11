@@ -22,9 +22,9 @@ const ReviewForm = ({ editing }) => {
     me().then(setCurrentUser);
   }, []);
 
-  useEffect(() => {
-    console.log(editing);
-  }, [editing]);
+  // useEffect(() => {
+  //   console.log(editing);
+  // }, [editing]);
 
   useEffect(() => {
     if (resourceId !== 0) {
