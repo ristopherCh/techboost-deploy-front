@@ -21,40 +21,43 @@ const ResourceBrowse = () => {
   };
 
   return (
-    <div className="d-flex flex-row justify-content-around">
-      <div>
-        <div className="m-3">
-          <strong>Subjects</strong>
+    <div className="d-flex flex-column">
+    <h2 className="text-center m-4">Browse</h2>
+      <div className="d-flex flex-row justify-content-around">
+        <div>
+          <div className="m-3">
+            <strong>Subjects</strong>
+          </div>
+          <ul>
+            {allSubjects.map((subject) => (
+              <li
+                className="cursor-pointer list-unstyled"
+                key={subject.id}
+                value={subject.id}
+                onClick={handleSubjectClick}
+              >
+                {subject.name}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul>
-          {allSubjects.map((subject) => (
-            <li
-              className="cursor-pointer list-unstyled"
-              key={subject.id}
-              value={subject.id}
-              onClick={handleSubjectClick}
-            >
-              {subject.name}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <div className="m-3">
-          <strong>Media types</strong>
+        <div>
+          <div className="m-3">
+            <strong>Media types</strong>
+          </div>
+          <ul>
+            {allMediaTypes.map((mediaType) => (
+              <li
+                className="cursor-pointer list-unstyled"
+                key={mediaType.id}
+                value={mediaType.id}
+                onClick={handleMediaTypeClick}
+              >
+                {mediaType.name}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul>
-          {allMediaTypes.map((mediaType) => (
-            <li
-              className="cursor-pointer list-unstyled"
-              key={mediaType.id}
-              value={mediaType.id}
-              onClick={handleMediaTypeClick}
-            >
-              {mediaType.name}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

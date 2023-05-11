@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { register } from "../modules/authManager";
 
@@ -27,8 +27,12 @@ export default function Register() {
   };
 
   return (
-    <Form onSubmit={registerClick}>
-      <fieldset>
+    <Form
+      className="d-flex flex-column align-items-center"
+      onSubmit={registerClick}
+    >
+      <h2 className="m-5">Register</h2>
+      <fieldset className="w-50">
         <FormGroup>
           <Label htmlFor="name">Name</Label>
           <Input

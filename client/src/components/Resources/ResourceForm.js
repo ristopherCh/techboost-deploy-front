@@ -42,7 +42,6 @@ const ResourceForm = ({ resourceEditable }) => {
   }, []);
 
   useEffect(() => {
-    console.log(resourceEditable);
     if (resourceEditable) {
       if (Object.keys(resourceEditable).length > 0) {
         setResource({
@@ -79,7 +78,6 @@ const ResourceForm = ({ resourceEditable }) => {
       copy.price = parseFloat(copy.price);
     }
     addResource(copy).then((newResource) => {
-      console.log(newResource);
       for (let subject of addedSubjects) {
         let resourceSubject = {
           resourceId: newResource.id,

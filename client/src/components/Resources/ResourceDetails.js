@@ -51,14 +51,18 @@ const ResourceDetails = () => {
   return (
     <div className="d-flex flex-column align-items-center">
       <div className="w-50 min-width-500px">
-        <ResourceCard resource={resource} currentUser={user} />
+        <ResourceCard
+          resource={resource}
+          currentUser={user}
+          reviewsShowing={true}
+        />
       </div>
       {Object.keys(user).length > 0 && showButtons ? (
         <div>
-          <Button className="m-3" onClick={() => navigate("edit")}>
+          <Button className="color-secondary border-none m-2 text-black" onClick={() => navigate("edit")}>
             Edit
           </Button>
-          <Button className="m-3" onClick={handleDeactivateClick}>
+          <Button className="m-3 btn-delete border-none text-black" onClick={handleDeactivateClick}>
             Delete
           </Button>
           <DeleteModal

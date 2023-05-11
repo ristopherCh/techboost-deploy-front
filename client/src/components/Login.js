@@ -17,7 +17,12 @@ export default function Login() {
   };
 
   return (
-    <Form onSubmit={loginSubmit}>
+    <Form
+      className="d-flex flex-column align-items-center"
+      onSubmit={loginSubmit}
+    >
+      <h2 className="m-5">Login</h2>
+      <div className="w-50 ">
         <FormGroup>
           <Label for="email">Email</Label>
           <Input
@@ -38,6 +43,7 @@ export default function Login() {
         <FormGroup>
           <Button>Login</Button>
         </FormGroup>
+      </div>
     </Form>
   );
 }
