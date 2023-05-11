@@ -18,6 +18,10 @@ const ResourceDetails = () => {
     getResource(id).then(setResource);
   }, []);
 
+  useEffect(() => {
+    getResource(id).then(setResource);
+  }, [id]);
+
   const DeleteModal = ({ show, onHide, onConfirm }) => {
     return (
       <Modal isOpen={show} toggle={onHide}>

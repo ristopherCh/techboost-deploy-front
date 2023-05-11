@@ -28,7 +28,7 @@ const ResourceForm = ({ resourceEditable }) => {
   const [filteredSubjects, setFilteredSubjects] = useState([]);
   const [subjectSearch, setSubjectSearch] = useState("");
   const [addedSubjects, setAddedSubjects] = useState([]);
-  const [addedResourceSubjects, setAddedResourceSubjects] = useState([]);
+  const [header, setHeader] = useState("Create a new resource");
 
   useEffect(() => {
     me().then((data) => {
@@ -42,6 +42,7 @@ const ResourceForm = ({ resourceEditable }) => {
   }, []);
 
   useEffect(() => {
+    console.log(resourceEditable);
     if (resourceEditable) {
       if (Object.keys(resourceEditable).length > 0) {
         setResource({
@@ -52,12 +53,13 @@ const ResourceForm = ({ resourceEditable }) => {
           mediaTypeId: resourceEditable.mediaTypeId,
           description: resourceEditable.description,
           price: resourceEditable.price,
-          datePublished: resourceEditable.datePublished.slice(0, 10),
+          datePublished: resourceEditable.datePublished?.slice(0, 10),
           imageUrl: resourceEditable.imageUrl,
           resourceUrl: resourceEditable.resourceUrl,
         });
       }
       setAddedSubjects(resourceEditable.subjects);
+      setHeader(`Edit: ${resourceEditable?.name}`);
     }
   }, [resourceEditable]);
 
@@ -170,6 +172,7 @@ const ResourceForm = ({ resourceEditable }) => {
 
   return (
     <Form className="m-5">
+      <h3 className="text-center">{header}</h3>
       <FormGroup>
         <Label for="name">Name</Label>
         <Input
@@ -269,12 +272,15 @@ const ResourceForm = ({ resourceEditable }) => {
           <div>Subjects:</div>
           <ul>
             {addedSubjects?.map((subject) => (
-              <li className="d-flex flex-row" key={subject.id}>
+              <li
+                className="mt-2 d-flex flex-row justify-content-between width-200"
+                key={subject.id}
+              >
                 <div>{subject.name}</div>
                 <button
                   onClick={handleRemoveAddedSubject}
                   value={subject.id}
-                  className="ms-2"
+                  className="ms-2 btn btn-sm btn-color-dark text-white"
                 >
                   Remove
                 </button>

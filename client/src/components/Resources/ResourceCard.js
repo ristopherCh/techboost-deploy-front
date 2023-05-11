@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Button, Card, CardBody, CardHeader, CardLink } from "reactstrap";
+import { Link, } from "react-router-dom";
+import { Button, Card, CardBody, CardHeader } from "reactstrap";
 import { getReviewsByResourceId } from "../../modules/reviewManager";
 import ReviewCard from "../Reviews/ReviewCard";
 import RatingDisplay from "../Reviews/RatingDisplay";
-import { me } from "../../modules/authManager";
 
 const ResourceCard = ({ resource, currentUser }) => {
   const [reviews, setReviews] = useState([]);
-  const [user, setUser] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
 
-  useEffect(() => {
-    me().then(setUser);
-  }, []);
 
   useEffect(() => {
     if (resource.id) {
@@ -116,13 +111,13 @@ const ResourceCard = ({ resource, currentUser }) => {
           <div id="reviews-box">
             {showReviews ? (
               <div>
-                <h3 className="m-3">Reviews</h3>
+                <h3 className="m-3 text-center">Reviews</h3>
                 <div className="m-2">
                   {reviews.slice(0, 3).map((review) => (
                     <ReviewCard
                       resourceId={resource.id}
                       getWhicheverReviews={getReviewsByResourceId}
-                      user={user}
+                      user={currentUser}
                       key={review.id}
                       review={review}
                       setReviews={setReviews}

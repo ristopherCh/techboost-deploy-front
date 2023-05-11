@@ -25,7 +25,6 @@ const ResourceList = () => {
       getAllResources().then(setResources);
       setHeader("All Resources");
     } else {
-      console.log(params);
       if (params.mediaType) {
         getResourcesByMediaType(params.mediaType).then(setResources);
         setHeader(params.mediaType);
@@ -65,9 +64,9 @@ const ResourceList = () => {
       <div className="w-50 min-width-500px">
         {resources.map((resource) => (
           <ResourceCard
+            currentUser={currentUser}
             key={resource.id}
             resource={resource}
-            currentUser={currentUser}
           />
         ))}
       </div>

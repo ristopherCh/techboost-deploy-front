@@ -11,7 +11,6 @@ import ReviewsList from "./Reviews/ReviewsList";
 import ReviewEdit from "./Reviews/ReviewEdit";
 import ReviewAdd from "./Reviews/ReviewAdd";
 import ReviewUserList from "./Reviews/ReviewUserList";
-import ResourceUserList from "./Resources/ResourceUserList";
 
 const ApplicationViews = ({ isLoggedIn }) => {
   return (

@@ -1,42 +1,36 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Input } from "reactstrap";
-import { getAllSubjects } from "../modules/subjectManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getAllMediaTypes } from "../modules/mediaTypeManager";
+import { getAllResources } from "../modules/resourceManager";
 
 const NavSearch = () => {
-  const [filteredSubjects, setFilteredSubjects] = useState([]);
-  const [allSubjects, setAllSubjects] = useState([]);
-  const [allMediaTypes, setAllMediaTypes] = useState([]);
+  const [resources, setResources] = useState([]);
+  const [filteredResources, setFilteredResources] = useState([]);
+  const [chosenResourceId, setChosenResourceId] = useState(0);
   const [searchPhrase, setSearchPhrase] = useState("");
   const [searchWasChosen, setSearchWasChosen] = useState(false);
-  const [allSearchableTerms, setAllSearchableTerms] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllSubjects().then(setAllSubjects);
-    getAllMediaTypes().then(setAllMediaTypes);
+    getAllResources().then(setResources);
   }, []);
 
-  useEffect(() => {
-    setAllSearchableTerms([...allSubjects, ...allMediaTypes]);
-  }, [allMediaTypes, allSubjects]);
 
   useEffect(() => {
-    let filteringSubjects = allSubjects.filter((subject) =>
-      subject.name.toLowerCase().includes(searchPhrase.toLowerCase())
+    let filteringResources = resources.filter((resource) =>
+      resource.name.toLowerCase().includes(searchPhrase.toLowerCase())
     );
-    setFilteredSubjects(filteringSubjects);
+    setFilteredResources(filteringResources);
     if (searchPhrase === "") {
-      setFilteredSubjects([]);
+      setFilteredResources([]);
     }
   }, [searchPhrase]);
 
   useEffect(() => {
     if (searchWasChosen) {
-      setFilteredSubjects([]);
+      setFilteredResources([]);
       setSearchWasChosen(false);
     }
   }, [searchWasChosen]);
@@ -47,12 +41,13 @@ const NavSearch = () => {
 
   const handleSearchSelection = (event) => {
     setSearchPhrase(event.target.innerText);
+    setChosenResourceId(event.target.value);
     setSearchWasChosen(true);
   };
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    navigate(`/resources/subjects/${searchPhrase}`);
+    navigate(`/resources/details/${chosenResourceId}`);
     setSearchPhrase("");
   };
 
@@ -75,15 +70,15 @@ const NavSearch = () => {
         </Button>
       </Form>
       <ul className="list-group searchbar-alignment" id="results">
-        {filteredSubjects.map((subject) => (
+        {filteredResources.map((resource) => (
           <button
-            key={subject.id}
+            key={resource.id}
             type="button"
-            value={subject.id}
+            value={resource.id}
             className="list-group-item list-group-item-action"
             onClick={handleSearchSelection}
           >
-            {subject.name}
+            {resource.name}
           </button>
         ))}
       </ul>
