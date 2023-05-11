@@ -18,7 +18,7 @@ namespace TechBoost.Repositories
 				using (var cmd = conn.CreateCommand())
 				{
 					cmd.CommandText = @"
-							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name 
+							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name, UserProfile.ImageUrl 
 							FROM Review 
 							LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id";
 
@@ -33,7 +33,8 @@ namespace TechBoost.Repositories
 								UserId = DbUtils.GetInt(reader, "UserId"),
 								UserProfile = new UserProfile()
 								{
-									Name = DbUtils.GetString(reader, "Name")
+									Name = DbUtils.GetString(reader, "Name"),
+									ImageUrl = DbUtils.GetString(reader, "ImageUrl")
 								},
 								ResourceId = DbUtils.GetInt(reader, "ResourceId"),
 								ReviewText = DbUtils.GetString(reader, "ReviewText"),
@@ -55,7 +56,7 @@ namespace TechBoost.Repositories
 				using (var cmd = conn.CreateCommand())
 				{
 					cmd.CommandText = @"
-							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name 
+							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name, UserProfile.ImageUrl 
 							FROM Review 
 							LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id
 							WHERE ResourceId = @ResourceId";
@@ -73,7 +74,8 @@ namespace TechBoost.Repositories
 								UserId = DbUtils.GetInt(reader, "UserId"),
 								UserProfile = new UserProfile()
 								{
-									Name = DbUtils.GetString(reader, "Name")
+									Name = DbUtils.GetString(reader, "Name"),
+									ImageUrl = DbUtils.GetString(reader, "ImageUrl")
 								},
 								ResourceId = DbUtils.GetInt(reader, "ResourceId"),
 								ReviewText = DbUtils.GetString(reader, "ReviewText"),
@@ -135,7 +137,7 @@ namespace TechBoost.Repositories
 				using (var cmd = conn.CreateCommand())
 				{
 					cmd.CommandText = @"
-							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name 
+							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name, UserProfile.ImageUrl 
 							FROM Review 
 							LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id
 							WHERE ResourceId = @ResourceId
@@ -155,7 +157,8 @@ namespace TechBoost.Repositories
 								UserId = DbUtils.GetInt(reader, "UserId"),
 								UserProfile = new UserProfile()
 								{
-									Name = DbUtils.GetString(reader, "Name")
+									Name = DbUtils.GetString(reader, "Name"),
+									ImageUrl = DbUtils.GetString(reader, "ImageUrl")
 								},
 								ResourceId = DbUtils.GetInt(reader, "ResourceId"),
 								ReviewText = DbUtils.GetString(reader, "ReviewText"),

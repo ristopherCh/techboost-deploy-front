@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getReviewsByResourceId } from "../../modules/reviewManager";
 import ReviewCard from "./ReviewCard";
 import { getResource } from "../../modules/resourceManager";
@@ -35,7 +35,9 @@ const ReviewsList = () => {
   return (
     <div className="m-3">
       <h4 className="text-center">All reviews for</h4>
-      <h2 className="text-center">{resource.name}</h2>
+      <Link className="clean-link" to={`/resources/details/${resource.id}`}>
+        <h2 className="text-center">{resource.name}</h2>
+      </Link>
       <RatingDisplay reviews={reviews} />
       {reviews.map((review) => (
         <div key={review.id} className="w-75 d-flex flex-column mx-auto">

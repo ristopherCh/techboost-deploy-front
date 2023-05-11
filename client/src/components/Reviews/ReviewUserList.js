@@ -3,6 +3,7 @@ import { getReviewsByUserId } from "../../modules/reviewManager";
 import { me } from "../../modules/authManager";
 import ReviewCard from "./ReviewCard";
 import { getAllResources } from "../../modules/resourceManager";
+import { Link } from "react-router-dom";
 
 const ReviewUserList = () => {
   const [user, setUser] = useState({});
@@ -26,10 +27,18 @@ const ReviewUserList = () => {
       <div className="w-50">
         {reviews.map((review) => (
           <div key={review.id}>
-            {
-              resources.find((resource) => resource.id === review.resourceId)
-                ?.name
-            }
+            <Link
+              to={`/resources/details/${
+                resources.find((resource) => resource.id === review.resourceId)
+                  ?.id
+              }`}
+              className="clean-link"
+            >
+              {
+                resources.find((resource) => resource.id === review.resourceId)
+                  ?.name
+              }
+            </Link>
             <ReviewCard
               key={review.id}
               review={review}

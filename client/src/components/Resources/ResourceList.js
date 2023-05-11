@@ -14,9 +14,11 @@ import { ClipLoader } from "react-spinners";
 const ResourceList = () => {
   const params = useParams();
   const [resources, setResources] = useState([]);
+  const [filteredResources, setFilteredResources] = useState([]);
   const [header, setHeader] = useState("");
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     me().then(setCurrentUser);
@@ -43,6 +45,39 @@ const ResourceList = () => {
   }, [params]);
 
   useEffect(() => {
+    console.log(resources);
+    setFilteredResources(resources.reverse());
+  }, [resources]);
+
+  useEffect(() => {
+    let copy = [...resources];
+    if (sortBy === "date") {
+      copy.sort(
+        (a, b) => new Date(b.datePublished) - new Date(a.datePublished)
+      );
+      setFilteredResources(copy);
+    }
+    if (sortBy === "rating") {
+      copy.sort((a, b) => {
+        const avgScoreA =
+          a.reviews.reduce((sum, review) => sum + review.reviewScore, 0) /
+          a.reviews.length;
+        const avgScoreB =
+          b.reviews.reduce((sum, review) => sum + review.reviewScore, 0) /
+          b.reviews.length;
+        return avgScoreB - avgScoreA;
+      });
+      setFilteredResources(copy);
+    }
+    if (sortBy === "reviews") {
+      copy.sort((a, b) => {
+        return b.reviews.length - a.reviews.length;
+      });
+      setFilteredResources(copy);
+    }
+  }, [sortBy]);
+
+  useEffect(() => {
     if (resources.length > 0 && Object.keys(currentUser).length > 0) {
       setLoading(false);
     }
@@ -60,6 +95,10 @@ const ResourceList = () => {
     }
   }, [params, currentUser]);
 
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+  };
+
   return (
     <div className="d-flex flex-column align-items-center">
       {loading ? (
@@ -68,20 +107,56 @@ const ResourceList = () => {
         <>
           <h4 className="mt-2">All results for:</h4>
           <h2 className="text-center m-2">{header}</h2>
-          {resources.length === 0 ? (
-            <h3 className="mt-5">No resources match this search!</h3>
-          ) : (
-            <></>
-          )}
-          <div className="w-50 min-width-500px">
-            {resources.map((resource) => (
-              <ResourceCard
-                reviewsShowing={false}
-                currentUser={currentUser}
-                key={resource.id}
-                resource={resource}
-              />
-            ))}
+          <div className="d-flex flex-row">
+            <div className="margin-left-2 width-100">
+              Sort by:
+              <div>
+                <input
+                  onChange={handleSortChange}
+                  type="radio"
+                  name="ratingOption"
+                  value="date"
+                  className="me-2"
+                />
+                <label htmlFor="date">Newest first</label>
+              </div>
+              <div>
+                <input
+                  onChange={handleSortChange}
+                  type="radio"
+                  name="ratingOption"
+                  value="reviews"
+                  className="me-2"
+                />
+                <label htmlFor="reviews">Most reviewed</label>
+              </div>
+              <div>
+                <input
+                  onChange={handleSortChange}
+                  type="radio"
+                  name="ratingOption"
+                  value="rating"
+                  className="me-2"
+                />
+                <label htmlFor="rating">Rating</label>
+              </div>
+            </div>
+            {resources.length === 0 ? (
+              <h3 className="mt-5">No resources match this search!</h3>
+            ) : (
+              <></>
+            )}
+            <div id="center-me" className="w-50 min-width-500px mx-auto">
+              {filteredResources.map((resource) => (
+                <ResourceCard
+                  reviewsShowing={false}
+                  currentUser={currentUser}
+                  key={resource.id}
+                  resource={resource}
+                />
+              ))}
+            </div>
+            <div className="margin-right-2 width-100"></div>
           </div>
         </>
       )}
