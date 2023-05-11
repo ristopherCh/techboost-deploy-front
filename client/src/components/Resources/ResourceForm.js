@@ -29,7 +29,6 @@ const ResourceForm = ({ resourceEditable }) => {
   const [subjectSearch, setSubjectSearch] = useState("");
   const [addedSubjects, setAddedSubjects] = useState([]);
   const [header, setHeader] = useState("Create a new resource");
-  const [addedResourceSubjects, setAddedResourceSubjects] = useState([]);
 
   useEffect(() => {
     me().then((data) => {
@@ -43,6 +42,7 @@ const ResourceForm = ({ resourceEditable }) => {
   }, []);
 
   useEffect(() => {
+    console.log(resourceEditable);
     if (resourceEditable) {
       if (Object.keys(resourceEditable).length > 0) {
         setResource({
@@ -53,14 +53,14 @@ const ResourceForm = ({ resourceEditable }) => {
           mediaTypeId: resourceEditable.mediaTypeId,
           description: resourceEditable.description,
           price: resourceEditable.price,
-          datePublished: resourceEditable.datePublished.slice(0, 10),
+          datePublished: resourceEditable.datePublished?.slice(0, 10),
           imageUrl: resourceEditable.imageUrl,
           resourceUrl: resourceEditable.resourceUrl,
         });
       }
       setAddedSubjects(resourceEditable.subjects);
+      setHeader(`Edit: ${resourceEditable?.name}`);
     }
-    setHeader(`Edit: ${resourceEditable.name}`);
   }, [resourceEditable]);
 
   const handleInputChange = (event) => {
@@ -272,7 +272,10 @@ const ResourceForm = ({ resourceEditable }) => {
           <div>Subjects:</div>
           <ul>
             {addedSubjects?.map((subject) => (
-              <li className="mt-2 d-flex flex-row justify-content-between width-200" key={subject.id}>
+              <li
+                className="mt-2 d-flex flex-row justify-content-between width-200"
+                key={subject.id}
+              >
                 <div>{subject.name}</div>
                 <button
                   onClick={handleRemoveAddedSubject}

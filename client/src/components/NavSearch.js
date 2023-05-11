@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Input } from "reactstrap";
-import { getAllSubjects } from "../modules/subjectManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getAllMediaTypes } from "../modules/mediaTypeManager";
 import { getAllResources } from "../modules/resourceManager";
 
 const NavSearch = () => {
-  const [filteredSubjects, setFilteredSubjects] = useState([]);
-  const [allSubjects, setAllSubjects] = useState([]);
-  const [allMediaTypes, setAllMediaTypes] = useState([]);
   const [resources, setResources] = useState([]);
   const [filteredResources, setFilteredResources] = useState([]);
   const [chosenResourceId, setChosenResourceId] = useState(0);
   const [searchPhrase, setSearchPhrase] = useState("");
   const [searchWasChosen, setSearchWasChosen] = useState(false);
-  // const [allSearchableTerms, setAllSearchableTerms] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // getAllSubjects().then(setAllSubjects);
-    // getAllMediaTypes().then(setAllMediaTypes);
     getAllResources().then(setResources);
   }, []);
 
@@ -55,7 +47,6 @@ const NavSearch = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    // navigate(`/resources/subjects/${searchPhrase}`);
     navigate(`/resources/details/${chosenResourceId}`);
     setSearchPhrase("");
   };

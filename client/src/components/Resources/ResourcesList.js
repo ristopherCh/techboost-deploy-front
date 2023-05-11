@@ -64,9 +64,9 @@ const ResourceList = () => {
       <div className="w-50 min-width-500px">
         {resources.map((resource) => (
           <ResourceCard
+            currentUser={currentUser}
             key={resource.id}
             resource={resource}
-            currentUser={currentUser}
           />
         ))}
       </div>
