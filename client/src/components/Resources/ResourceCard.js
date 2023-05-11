@@ -4,7 +4,6 @@ import { Button, Card, CardBody, CardHeader } from "reactstrap";
 import { getReviewsByResourceId } from "../../modules/reviewManager";
 import ReviewCard from "../Reviews/ReviewCard";
 import RatingDisplay from "../Reviews/RatingDisplay";
-import { ClipLoader } from "react-spinners";
 
 const ResourceCard = ({ resource, currentUser, reviewsShowing }) => {
   const [reviews, setReviews] = useState([]);
@@ -63,6 +62,13 @@ const ResourceCard = ({ resource, currentUser, reviewsShowing }) => {
             </Link>
           </CardHeader>
           <CardBody>
+            <div className="d-flex justify-content-center white-background">
+              <img
+                className="resource-image"
+                src={resource.imageUrl}
+                alt="resource"
+              />
+            </div>
             {reviews.length !== 0 ? (
               <RatingDisplay reviews={reviews} />
             ) : (
@@ -120,6 +126,10 @@ const ResourceCard = ({ resource, currentUser, reviewsShowing }) => {
               {resource.price === 0 ? "Free" : `$${resource.price}`}
             </div>
             <div className="mt-2">
+              <strong>Published:</strong>{" "}
+              {new Date(resource.datePublished).toLocaleDateString()}
+            </div>
+            <div className="mt-2">
               {resource.subjects?.length > 0 && <strong>Subjects</strong>}
             </div>
             <ul className="list-unstyled">
@@ -139,7 +149,7 @@ const ResourceCard = ({ resource, currentUser, reviewsShowing }) => {
                   <div>
                     <h3 className="m-3 text-center">Reviews</h3>
                     <div className="m-2">
-                      {reviews.slice(0, 3).map((review) => (
+                      {resource.reviews.slice(0, 3).map((review) => (
                         <ReviewCard
                           resourceId={resource.id}
                           getWhicheverReviews={getReviewsByResourceId}

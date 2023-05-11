@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import NavSearch from "./NavSearch";
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ isLoggedIn, user }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -57,8 +57,16 @@ const Header = ({ isLoggedIn }) => {
               </NavItem>
               <NavItem>
                 <NavLink tag={RRNavLink} to="/reviews/user">
+                  <img className="header-image" src={user.imageUrl} alt="User" />
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/reviews/user">
                   My reviews
                 </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/reviews/user"></NavLink>
               </NavItem>
 
               <div className="ml-auto">

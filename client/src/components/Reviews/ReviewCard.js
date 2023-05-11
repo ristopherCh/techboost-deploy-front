@@ -78,7 +78,14 @@ const ReviewCard = (props) => {
     <Card className="m-2 box-shadow" key={review.id}>
       <CardBody>
         <div className="d-flex flex-row justify-content-between">
-          <div>
+          <div className="mb-2">
+            {
+              <img
+                className="me-2 header-image"
+                src={review.userProfile.imageUrl}
+                alt="User"
+              />
+            }{" "}
             <strong>{review.userProfile?.name}</strong>{" "}
           </div>
           <div>{isCurrentUser ? <UserButtons /> : <></>}</div>
