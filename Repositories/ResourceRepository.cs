@@ -624,7 +624,7 @@ namespace TechBoost.Repositories
 						}
 					}
 					cmd.CommandText = @"
-								SELECT Review.Id, Review.UserId, Review.ResourceId, Review.ReviewText, Review.ReviewScore, Review.DateCreated, UserProfile.Name 
+								SELECT Review.Id, Review.UserId, Review.ResourceId, Review.ReviewText, Review.ReviewScore, Review.DateCreated, UserProfile.Name, UserProfile.ImageURL AS UPImage 
 								FROM Review
 								LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id 
 								WHERE Review.ResourceId = @ResourceId";
@@ -647,7 +647,8 @@ namespace TechBoost.Repositories
 							{
 								review.UserProfile = new UserProfile()
 								{
-									Name = DbUtils.GetString(reader, "Name")
+									Name = DbUtils.GetString(reader, "Name"),
+									ImageUrl = DbUtils.GetString(reader, "UPImage")
 								};
 							}
 							if (!reader.IsDBNull(reader.GetOrdinal("ResourceId")))
@@ -800,7 +801,11 @@ namespace TechBoost.Repositories
 						{
 							review.DateCreated = DbUtils.GetDateTime(reader, "DateCreated");
 						}
-						resource.Reviews.Add(review);
+						if (review.Id != 0)
+						{
+							resource.Reviews.Add(review);
+						}
+
 					}
 				}
 			}

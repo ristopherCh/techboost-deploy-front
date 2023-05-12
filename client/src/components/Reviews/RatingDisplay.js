@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
 
 const RatingDisplay = ({ reviews }) => {
   const [rating, setRating] = useState([]);
@@ -15,10 +16,9 @@ const RatingDisplay = ({ reviews }) => {
   }, [reviews]);
 
   return (
-    <div className="mb-3">
-      <h5 className="text-center">
-        {rating}/5 stars, {reviews.length} ratings
-      </h5>
+    <div className="mb-3 d-flex justify-content-center">
+      <StarRating rating={rating} />
+      <h5 className="text-center ms-2">{reviews.length} ratings</h5>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { deleteReview } from "../../modules/reviewManager";
+import StarRating from "../StarRating";
 
 const ReviewCard = (props) => {
   const { review, user, setReviews, getWhicheverReviews, resourceId } = props;
@@ -90,8 +91,9 @@ const ReviewCard = (props) => {
           </div>
           <div>{isCurrentUser ? <UserButtons /> : <></>}</div>
         </div>
-        <div>
-          <strong>Rating: </strong> {review.reviewScore}/5{" "}
+        <div className="d-flex">
+          {/* <strong>Rating: </strong> {review.reviewScore}/5{" "} */}
+          <StarRating rating={review.reviewScore} />
         </div>
         <div>{review.reviewText}</div>
       </CardBody>

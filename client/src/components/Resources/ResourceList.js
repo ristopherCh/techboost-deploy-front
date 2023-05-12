@@ -42,10 +42,10 @@ const ResourceList = () => {
         setHeader(params.creator);
       }
     }
+    setSortBy("");
   }, [params]);
 
   useEffect(() => {
-    console.log(resources);
     setFilteredResources(resources.reverse());
   }, [resources]);
 
@@ -72,6 +72,12 @@ const ResourceList = () => {
     if (sortBy === "reviews") {
       copy.sort((a, b) => {
         return b.reviews.length - a.reviews.length;
+      });
+      setFilteredResources(copy);
+    }
+    if (sortBy === "price") {
+      copy.sort((a, b) => {
+        return a.price - b.price;
       });
       setFilteredResources(copy);
     }
@@ -107,7 +113,7 @@ const ResourceList = () => {
         <>
           <h4 className="mt-2">All results for:</h4>
           <h2 className="text-center m-2">{header}</h2>
-          <div className="d-flex flex-row">
+          <div id="trouble" className="w-100 d-flex flex-row">
             <div className="margin-left-2 width-100">
               Sort by:
               <div>
@@ -139,6 +145,16 @@ const ResourceList = () => {
                   className="me-2"
                 />
                 <label htmlFor="rating">Rating</label>
+              </div>
+              <div>
+                <input
+                  onChange={handleSortChange}
+                  type="radio"
+                  name="ratingOption"
+                  value="price"
+                  className="me-2"
+                />
+                <label htmlFor="rating">Lowest price</label>
               </div>
             </div>
             {resources.length === 0 ? (

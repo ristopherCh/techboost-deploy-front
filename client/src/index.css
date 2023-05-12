@@ -24,7 +24,7 @@ code {
 }
 
 .searchbar-alignment {
-  top: 40px;
+  top: 44px;
   z-index: 9999;
 }
 
@@ -205,11 +205,11 @@ code {
 }
 
 .margin-left-2 {
-  margin-left: 2%;
+  margin-left: 10%;
 }
 
 .margin-right-2 {
-  margin-right: 2%;
+  margin-right: 10%;
 }
 
 .width-100 {
