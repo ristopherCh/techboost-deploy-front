@@ -75,6 +75,12 @@ const ResourceList = () => {
       });
       setFilteredResources(copy);
     }
+    if (sortBy === "price") {
+      copy.sort((a, b) => {
+        return a.price - b.price;
+      });
+      setFilteredResources(copy);
+    }
   }, [sortBy]);
 
   useEffect(() => {
@@ -139,6 +145,16 @@ const ResourceList = () => {
                   className="me-2"
                 />
                 <label htmlFor="rating">Rating</label>
+              </div>
+              <div>
+                <input
+                  onChange={handleSortChange}
+                  type="radio"
+                  name="ratingOption"
+                  value="price"
+                  className="me-2"
+                />
+                <label htmlFor="rating">Lowest price</label>
               </div>
             </div>
             {resources.length === 0 ? (

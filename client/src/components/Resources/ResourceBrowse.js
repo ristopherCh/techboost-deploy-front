@@ -8,8 +8,14 @@ const ResourceBrowse = () => {
   const [allSubjects, setAllSubjects] = useState([]);
   const [allMediaTypes, setAllMediaTypes] = useState([]);
   useEffect(() => {
-    getAllSubjects().then(setAllSubjects);
-    getAllMediaTypes().then(setAllMediaTypes);
+    getAllSubjects().then((subjects) => {
+      subjects.sort((a, b) => a.name.localeCompare(b.name));
+      setAllSubjects(subjects);
+    });
+    getAllMediaTypes().then((mediaTypes) => {
+      mediaTypes.sort((a, b) => a.name.localeCompare(b.name));
+      setAllMediaTypes(mediaTypes);
+    });
   }, []);
 
   const handleSubjectClick = (event) => {
@@ -22,7 +28,7 @@ const ResourceBrowse = () => {
 
   return (
     <div className="d-flex flex-column">
-    <h2 className="text-center m-4">Browse</h2>
+      <h2 className="text-center m-4">Browse</h2>
       <div className="d-flex flex-row justify-content-around">
         <div>
           <div className="m-3">
