@@ -42,10 +42,10 @@ const ResourceList = () => {
         setHeader(params.creator);
       }
     }
+    setSortBy("");
   }, [params]);
 
   useEffect(() => {
-    console.log(resources);
     setFilteredResources(resources.reverse());
   }, [resources]);
 
@@ -107,7 +107,7 @@ const ResourceList = () => {
         <>
           <h4 className="mt-2">All results for:</h4>
           <h2 className="text-center m-2">{header}</h2>
-          <div className="d-flex flex-row">
+          <div id="trouble" className="w-100 d-flex flex-row">
             <div className="margin-left-2 width-100">
               Sort by:
               <div>
