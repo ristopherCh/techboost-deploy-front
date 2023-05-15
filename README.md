@@ -1,2 +1,2 @@
 # TechBoost
-### This project is in progress! Check back May 15 for a completed version.
+### This project is in progress! Check back in late May 2023 for a completed version.
