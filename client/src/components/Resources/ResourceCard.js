@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Card, CardBody, CardHeader } from "reactstrap";
 import { getReviewsByResourceId } from "../../modules/reviewManager";
 import ReviewCard from "../Reviews/ReviewCard";
 import RatingDisplay from "../Reviews/RatingDisplay";
 
 const ResourceCard = ({ resource, currentUser, reviewsShowing }) => {
+  const location = useLocation();
   const [reviews, setReviews] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
@@ -14,6 +15,12 @@ const ResourceCard = ({ resource, currentUser, reviewsShowing }) => {
   useEffect(() => {
     setShowReviews(reviewsShowing);
   }, []);
+
+  useEffect(() => {
+    if (!reviewsShowing) {
+      setShowReviews(false);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (resource.id) {
