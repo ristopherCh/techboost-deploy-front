@@ -71,7 +71,7 @@ const Home = () => {
           alt="Signature"
         />
         <p>Chris Hanson</p>
-        <p>CEO of TechBoost</p>
+        <p>Creator of TechBoost</p>
       </div>
     </div>
   );

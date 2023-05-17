@@ -47,6 +47,7 @@ const ResourceList = () => {
 
   useEffect(() => {
     setFilteredResources(resources.reverse());
+    setSortBy("");
   }, [resources]);
 
   useEffect(() => {
@@ -111,11 +112,11 @@ const ResourceList = () => {
         <ClipLoader loading={loading} />
       ) : (
         <>
-          <h4 className="mt-2">All results for:</h4>
+          <h4 className="mt-2">Results for:</h4>
           <h2 className="text-center m-2">{header}</h2>
           <div id="trouble" className="w-100 d-flex flex-row">
             <div className="margin-left-2 width-100">
-              Sort by:
+              <strong>Sort by:</strong>
               <div>
                 <input
                   onChange={handleSortChange}
@@ -123,6 +124,7 @@ const ResourceList = () => {
                   name="ratingOption"
                   value="date"
                   className="me-2"
+                  checked={sortBy === "date"}
                 />
                 <label htmlFor="date">Newest first</label>
               </div>
@@ -133,6 +135,7 @@ const ResourceList = () => {
                   name="ratingOption"
                   value="reviews"
                   className="me-2"
+                  checked={sortBy === "reviews"}
                 />
                 <label htmlFor="reviews">Most reviewed</label>
               </div>
@@ -143,6 +146,7 @@ const ResourceList = () => {
                   name="ratingOption"
                   value="rating"
                   className="me-2"
+                  checked={sortBy === "rating"}
                 />
                 <label htmlFor="rating">Rating</label>
               </div>
@@ -153,6 +157,7 @@ const ResourceList = () => {
                   name="ratingOption"
                   value="price"
                   className="me-2"
+                  checked={sortBy === "price"}
                 />
                 <label htmlFor="rating">Lowest price</label>
               </div>
