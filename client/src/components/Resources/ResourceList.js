@@ -10,6 +10,7 @@ import {
 import ResourceCard from "./ResourceCard";
 import { me } from "../../modules/authManager";
 import { ClipLoader } from "react-spinners";
+import ResourceSubjectFilter from "./ResourceSubjectFilter";
 
 const ResourceList = () => {
   const params = useParams();
@@ -115,7 +116,10 @@ const ResourceList = () => {
           <h4 className="mt-2">Results for:</h4>
           <h2 className="text-center m-2">{header}</h2>
           <div id="trouble" className="w-100 d-flex flex-row">
-            <div className="margin-left-2 width-100">
+            <div
+              className="margin-2 filter-column-width red-border"
+              id="left-column"
+            >
               <strong>Sort by:</strong>
               <div>
                 <input
@@ -167,7 +171,10 @@ const ResourceList = () => {
             ) : (
               <></>
             )}
-            <div id="center-me" className="w-50 min-width-500px mx-auto">
+            <div
+              id="center-column"
+              className="rdetails-body-width min-width-500px mx-auto red-border"
+            >
               {filteredResources.map((resource) => (
                 <ResourceCard
                   reviewsShowing={false}
@@ -177,7 +184,12 @@ const ResourceList = () => {
                 />
               ))}
             </div>
-            <div className="margin-right-2 width-100"></div>
+            <div
+              className="margin-2 filter-column-width red-border"
+              id="right-column"
+            >
+              <ResourceSubjectFilter />
+            </div>
           </div>
         </>
       )}
