@@ -16,10 +16,12 @@ const ResourceList = () => {
   const params = useParams();
   const [resources, setResources] = useState([]);
   const [filteredResources, setFilteredResources] = useState([]);
+  const [filteredResourcesAll, setFilteredResourcesAll] = useState([]);
   const [header, setHeader] = useState("");
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("");
+  const [subjectFiltered, setSubjectFiltered] = useState(false);
 
   useEffect(() => {
     me().then(setCurrentUser);
@@ -48,16 +50,24 @@ const ResourceList = () => {
 
   useEffect(() => {
     setFilteredResources(resources.reverse());
+    setFilteredResourcesAll(resources.reverse());
     setSortBy("");
   }, [resources]);
 
   useEffect(() => {
-    let copy = [...resources];
+    handleSortBy();
+  }, [sortBy]);
+
+  const handleSortBy = () => {
+    let copy = [...filteredResources];
     if (sortBy === "date") {
       copy.sort(
         (a, b) => new Date(b.datePublished) - new Date(a.datePublished)
       );
       setFilteredResources(copy);
+      if (!subjectFiltered) {
+        setFilteredResourcesAll(copy);
+      }
     }
     if (sortBy === "rating") {
       copy.sort((a, b) => {
@@ -70,20 +80,29 @@ const ResourceList = () => {
         return avgScoreB - avgScoreA;
       });
       setFilteredResources(copy);
+      if (!subjectFiltered) {
+        setFilteredResourcesAll(copy);
+      }
     }
     if (sortBy === "reviews") {
       copy.sort((a, b) => {
         return b.reviews.length - a.reviews.length;
       });
       setFilteredResources(copy);
+      if (!subjectFiltered) {
+        setFilteredResourcesAll(copy);
+      }
     }
     if (sortBy === "price") {
       copy.sort((a, b) => {
         return a.price - b.price;
       });
       setFilteredResources(copy);
+      if (!subjectFiltered) {
+        setFilteredResourcesAll(copy);
+      }
     }
-  }, [sortBy]);
+  };
 
   useEffect(() => {
     if (resources.length > 0 && Object.keys(currentUser).length > 0) {
@@ -102,6 +121,9 @@ const ResourceList = () => {
       }
     }
   }, [params, currentUser]);
+
+  useEffect(() => {
+  }, [filteredResources]);
 
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
@@ -188,7 +210,12 @@ const ResourceList = () => {
               className="margin-2 filter-column-width red-border"
               id="right-column"
             >
-              <ResourceSubjectFilter />
+              <ResourceSubjectFilter
+                params={params}
+                setSubjectFiltered={setSubjectFiltered}
+                setFilteredResources={setFilteredResources}
+                filteredResourcesAll={filteredResourcesAll}
+              />
             </div>
           </div>
         </>
