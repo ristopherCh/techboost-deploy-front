@@ -55,6 +55,10 @@ const ResourceList = () => {
   }, [resources]);
 
   useEffect(() => {
+    handleSortBy();
+  }, [sortBy]);
+
+  const handleSortBy = () => {
     let copy = [...filteredResources];
     if (sortBy === "date") {
       copy.sort(
@@ -98,7 +102,7 @@ const ResourceList = () => {
         setFilteredResourcesAll(copy);
       }
     }
-  }, [sortBy]);
+  };
 
   useEffect(() => {
     if (resources.length > 0 && Object.keys(currentUser).length > 0) {
@@ -118,7 +122,8 @@ const ResourceList = () => {
     }
   }, [params, currentUser]);
 
-  useEffect(() => {}, [filteredResources]);
+  useEffect(() => {
+  }, [filteredResources]);
 
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
@@ -206,6 +211,7 @@ const ResourceList = () => {
               id="right-column"
             >
               <ResourceSubjectFilter
+                params={params}
                 setSubjectFiltered={setSubjectFiltered}
                 setFilteredResources={setFilteredResources}
                 filteredResourcesAll={filteredResourcesAll}
