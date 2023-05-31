@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Input } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAllResources } from "../modules/resourceManager";
 
@@ -66,7 +66,7 @@ const NavSearch = () => {
           onChange={handleSearchPhraseChange}
         />
         <Button className="color-medium btn-sm">
-          <FontAwesomeIcon icon={faSearch} className="text-black" />
+          {/* <FontAwesomeIcon icon={faSearch} className="text-black" /> */}
         </Button>
       </Form>
       <ul className="list-group searchbar-alignment" id="results">

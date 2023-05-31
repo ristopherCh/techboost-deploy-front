@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 using TechBoost.Models;
 using TechBoost.Repositories;
@@ -51,11 +52,24 @@ namespace TechBoost.Controllers
 			return Ok(_reviewRepository.GetReviewByResourceIdAndUser(id, currentUser.Id));
 		}
 
+		[HttpGet("reviewLikes/{id}")]
+		public IActionResult GetReviewLikesByReviewId(int id)
+		{
+			return Ok(_reviewRepository.GetReviewLikesByReviewId(id));
+		}
+
 		[HttpPost]
 		public IActionResult Post(Review review)
 		{
 			_reviewRepository.Add(review);
 			return CreatedAtAction("GetReviewById", new { id = review.Id }, review);
+		}
+
+		[HttpPost("reviewLike")]
+		public IActionResult PostReviewLike(ReviewLike reviewLike)
+		{
+			_reviewRepository.AddReviewLike(reviewLike);
+			return CreatedAtAction("GetReviewById", new { id = reviewLike.Id }, reviewLike);
 		}
 
 		[HttpPut("{id}")]

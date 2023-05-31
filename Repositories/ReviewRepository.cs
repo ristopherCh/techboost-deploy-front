@@ -271,5 +271,58 @@ namespace TechBoost.Repositories
 				}
 			}
 		}
+
+		public void AddReviewLike(ReviewLike reviewLike)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+						INSERT INTO ReviewLike 
+						(UserId, ReviewId) 
+							OUTPUT INSERTED.ID 
+						VALUES (@UserId, @ReviewId)
+										";
+					DbUtils.AddParameter(cmd, "@UserId", reviewLike.UserId);
+					DbUtils.AddParameter(cmd, "@ReviewId", reviewLike.ReviewId);
+
+					reviewLike.Id = (int)cmd.ExecuteScalar();
+				}
+			}
+		}
+
+		public List<ReviewLike> GetReviewLikesByReviewId(int id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+							SELECT Id, UserId, ReviewId
+							FROM ReviewLike 
+							WHERE ReviewId = @Id";
+
+					DbUtils.AddParameter(cmd, "@Id", id);
+
+					using (SqlDataReader reader = cmd.ExecuteReader())
+					{
+						var reviewLikes = new List<ReviewLike>();
+						while (reader.Read())
+						{
+							reviewLikes.Add(new ReviewLike()
+							{
+								Id = DbUtils.GetInt(reader, "Id"),
+								UserId = DbUtils.GetInt(reader, "UserId"),
+								ReviewId = DbUtils.GetInt(reader, "ReviewId")
+							});
+						}
+						return reviewLikes;
+					}
+				}
+			}
+		}
 	}
 }

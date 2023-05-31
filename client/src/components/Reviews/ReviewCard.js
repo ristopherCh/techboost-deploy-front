@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { deleteReview } from "../../modules/reviewManager";
 import StarRating from "../StarRating";
+import ReviewLikes from "./ReviewLikes";
 
 const ReviewCard = (props) => {
   const { review, user, setReviews, getWhicheverReviews, resourceId } = props;
@@ -92,10 +93,10 @@ const ReviewCard = (props) => {
           <div>{isCurrentUser ? <UserButtons /> : <></>}</div>
         </div>
         <div className="d-flex">
-          {/* <strong>Rating: </strong> {review.reviewScore}/5{" "} */}
           <StarRating rating={review.reviewScore} />
         </div>
         <div>{review.reviewText}</div>
+        <ReviewLikes userId={user.id} reviewId={review.id} />
       </CardBody>
     </Card>
   );
