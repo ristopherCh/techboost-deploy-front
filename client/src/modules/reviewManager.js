@@ -26,6 +26,29 @@ export const addReview = (reviewObj) => {
   });
 };
 
+export const addReviewLike = (reviewLikeObj) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/reviewLike`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reviewLikeObj),
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else if (resp.status === 401) {
+        throw new Error("Unauthorized");
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to like a review."
+        );
+      }
+    });
+  });
+};
+
 export const editReview = (reviewObj, reviewId) => {
   return getToken().then((token) => {
     return fetch(`${_apiUrl}/${reviewId}`, {
@@ -100,6 +123,25 @@ export const getReviewByResourceIdAndUser = (resourceId) => {
       } else {
         throw new Error(
           "An unknown error occurred while trying to fetch reviews by resource id."
+        );
+      }
+    });
+  });
+};
+
+export const getReviewLikesByReviewId = (reviewId) => {
+  return getToken().then((token) => {
+    return fetch(`${_apiUrl}/reviewLikes/${reviewId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch review likes by review id."
         );
       }
     });
