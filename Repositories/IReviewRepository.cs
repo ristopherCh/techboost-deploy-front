@@ -15,5 +15,6 @@ namespace TechBoost.Repositories
 		void DeleteReview(int id);
 		void AddReviewLike(ReviewLike reviewLike);
 		List<ReviewLike> GetReviewLikesByReviewId(int id);
+		void DeleteReviewLike(int id);
 	}
 }

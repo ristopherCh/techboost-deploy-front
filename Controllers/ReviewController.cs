@@ -86,6 +86,13 @@ namespace TechBoost.Controllers
 			return NoContent();
 		}
 
+		[HttpDelete("reviewLikes/{id}")]
+		public IActionResult DeleteReviewLike(int id)
+		{
+			_reviewRepository.DeleteReviewLike(id);
+			return NoContent();
+		}
+
 		private UserProfile GetCurrentUserProfile()
 		{
 			var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TechBoost.Models
 {
@@ -11,5 +12,6 @@ namespace TechBoost.Models
 		public string ReviewText { get; set; }
 		public int ReviewScore { get; set; }
 		public DateTime DateCreated { get; set; }
+		public List<ReviewLike> ReviewLikes { get; set; }
 	}
 }
