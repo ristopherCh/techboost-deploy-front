@@ -11,10 +11,16 @@ const ReviewsList = () => {
   const [reviews, setReviews] = useState([]);
   const [resource, setResource] = useState({});
   const [user, setUser] = useState({});
+  const [sortByReviewCount, setSortByReviewCount] = useState(false);
 
   useEffect(() => {
     me().then(setUser);
   }, []);
+
+  useEffect(() => {
+    if (sortByReviewCount) {
+    }
+  }, [sortByReviewCount]);
 
   useEffect(() => {
     if (resourceId) {

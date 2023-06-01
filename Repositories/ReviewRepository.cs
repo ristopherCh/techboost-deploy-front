@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 using TechBoost.Models;
 using TechBoost.Utils;
 
@@ -48,6 +49,47 @@ namespace TechBoost.Repositories
 			}
 		}
 
+		//public List<Review> GetReviewsByResourceId(int id)
+		//{
+		//	using (var conn = Connection)
+		//	{
+		//		conn.Open();
+		//		using (var cmd = conn.CreateCommand())
+		//		{
+		//			cmd.CommandText = @"
+		//					SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name, UserProfile.ImageUrl 
+		//					FROM Review 
+		//					LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id
+		//					WHERE ResourceId = @ResourceId";
+
+		//			DbUtils.AddParameter(cmd, "@ResourceId", id);
+
+		//			using (SqlDataReader reader = cmd.ExecuteReader())
+		//			{
+		//				var reviews = new List<Review>();
+		//				while (reader.Read())
+		//				{
+		//					reviews.Add(new Review()
+		//					{
+		//						Id = DbUtils.GetInt(reader, "Id"),
+		//						UserId = DbUtils.GetInt(reader, "UserId"),
+		//						UserProfile = new UserProfile()
+		//						{
+		//							Name = DbUtils.GetString(reader, "Name"),
+		//							ImageUrl = DbUtils.GetString(reader, "ImageUrl")
+		//						},
+		//						ResourceId = DbUtils.GetInt(reader, "ResourceId"),
+		//						ReviewText = DbUtils.GetString(reader, "ReviewText"),
+		//						ReviewScore = DbUtils.GetInt(reader, "ReviewScore"),
+		//						DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+		//					});
+		//				}
+		//				return reviews;
+		//			}
+		//		}
+		//	}
+		//}
+
 		public List<Review> GetReviewsByResourceId(int id)
 		{
 			using (var conn = Connection)
@@ -55,11 +97,14 @@ namespace TechBoost.Repositories
 				conn.Open();
 				using (var cmd = conn.CreateCommand())
 				{
-					cmd.CommandText = @"
-							SELECT Review.DateCreated, Review.Id, UserId, ResourceId, ReviewText, ReviewScore, UserProfile.Name, UserProfile.ImageUrl 
+					cmd.CommandText = @"SELECT Review.DateCreated, Review.Id AS ReviewId, Review.UserId, ResourceId, ReviewText, ReviewScore, 
+		UserProfile.Name, UserProfile.ImageUrl,
+		ReviewLike.Id AS ReviewLikeId, ReviewLike.UserId AS ReviewLikerUserId
 							FROM Review 
 							LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id
-							WHERE ResourceId = @ResourceId";
+							LEFT JOIN ReviewLike ON Review.Id = ReviewLike.ReviewId
+							WHERE ResourceId = @ResourceId
+							ORDER BY ReviewId";
 
 					DbUtils.AddParameter(cmd, "@ResourceId", id);
 
@@ -68,20 +113,36 @@ namespace TechBoost.Repositories
 						var reviews = new List<Review>();
 						while (reader.Read())
 						{
-							reviews.Add(new Review()
+							var reviewId = DbUtils.GetInt(reader, "ReviewId");
+							var existingReview = reviews.FirstOrDefault(r => r.Id == reviewId);
+							if (existingReview == null)
 							{
-								Id = DbUtils.GetInt(reader, "Id"),
-								UserId = DbUtils.GetInt(reader, "UserId"),
-								UserProfile = new UserProfile()
+								existingReview = new Review()
 								{
-									Name = DbUtils.GetString(reader, "Name"),
-									ImageUrl = DbUtils.GetString(reader, "ImageUrl")
-								},
-								ResourceId = DbUtils.GetInt(reader, "ResourceId"),
-								ReviewText = DbUtils.GetString(reader, "ReviewText"),
-								ReviewScore = DbUtils.GetInt(reader, "ReviewScore"),
-								DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
-							});
+									Id = DbUtils.GetInt(reader, "ReviewId"),
+									UserId = DbUtils.GetInt(reader, "UserId"),
+									UserProfile = new UserProfile()
+									{
+										Name = DbUtils.GetString(reader, "Name"),
+										ImageUrl = DbUtils.GetString(reader, "ImageUrl")
+									},
+									ResourceId = DbUtils.GetInt(reader, "ResourceId"),
+									ReviewText = DbUtils.GetString(reader, "ReviewText"),
+									ReviewScore = DbUtils.GetInt(reader, "ReviewScore"),
+									DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
+									ReviewLikes = new List<ReviewLike>()
+								};
+								reviews.Add(existingReview);
+							};
+							if (!reader.IsDBNull(reader.GetOrdinal("ReviewLikeId")))
+							{
+								existingReview.ReviewLikes.Add(new ReviewLike()
+								{
+									Id = DbUtils.GetInt(reader, "ReviewLikeId"),
+									UserId = DbUtils.GetInt(reader, "ReviewLikerUserId"),
+									ReviewId = DbUtils.GetInt(reader, "ReviewId")
+								});
+							}
 						}
 						return reviews;
 					}
@@ -321,6 +382,20 @@ namespace TechBoost.Repositories
 						}
 						return reviewLikes;
 					}
+				}
+			}
+		}
+
+		public void DeleteReviewLike(int id)
+		{
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = "DELETE FROM ReviewLike WHERE Id = @Id";
+					DbUtils.AddParameter(cmd, "@id", id);
+					cmd.ExecuteNonQuery();
 				}
 			}
 		}
