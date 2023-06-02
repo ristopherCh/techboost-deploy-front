@@ -6,6 +6,7 @@ import {
   getResourcesByMediaType,
   getResourcesBySubject,
   getResourcesByUserId,
+  searchResources,
 } from "../../modules/resourceManager";
 import ResourceCard from "./ResourceCard";
 import { me } from "../../modules/authManager";
@@ -28,6 +29,7 @@ const ResourceList = () => {
   }, []);
 
   useEffect(() => {
+    console.log(params);
     if (Object.keys(params).length === 0) {
       getAllResources().then(setResources);
       setHeader("All Resources");
@@ -43,6 +45,10 @@ const ResourceList = () => {
       if (params.creator) {
         getResourcesByCreator(params.creator).then(setResources);
         setHeader(params.creator);
+      }
+      if (params.searchTerm) {
+        searchResources(params.searchTerm).then(setResources);
+        setHeader(`"${params.searchTerm}"`);
       }
     }
     setSortBy("");
@@ -122,8 +128,7 @@ const ResourceList = () => {
     }
   }, [params, currentUser]);
 
-  useEffect(() => {
-  }, [filteredResources]);
+  useEffect(() => {}, [filteredResources]);
 
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
@@ -189,23 +194,25 @@ const ResourceList = () => {
               </div>
             </div>
             {resources.length === 0 ? (
-              <h3 className="mt-5">No resources match this search!</h3>
+              <h3 className="rdetails-body-width min-width-500px mx-auto red-border text-center mt-3">
+                No resources match this search!
+              </h3>
             ) : (
-              <></>
+              <div
+                id="center-column"
+                className="rdetails-body-width min-width-500px mx-auto red-border"
+              >
+                {filteredResources.map((resource) => (
+                  <ResourceCard
+                    reviewsShowing={false}
+                    currentUser={currentUser}
+                    key={resource.id}
+                    resource={resource}
+                  />
+                ))}
+              </div>
             )}
-            <div
-              id="center-column"
-              className="rdetails-body-width min-width-500px mx-auto red-border"
-            >
-              {filteredResources.map((resource) => (
-                <ResourceCard
-                  reviewsShowing={false}
-                  currentUser={currentUser}
-                  key={resource.id}
-                  resource={resource}
-                />
-              ))}
-            </div>
+
             <div
               className="margin-2 filter-column-width red-border"
               id="right-column"

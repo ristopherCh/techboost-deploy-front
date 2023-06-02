@@ -15,6 +15,7 @@ import {
   DropdownItem,
 } from "reactstrap";
 import NavSearch from "./NavSearch";
+import NavbarSearch from "./NavbarSearch";
 
 const Header = ({ isLoggedIn, user }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -114,11 +115,17 @@ const Header = ({ isLoggedIn, user }) => {
           {isLoggedIn && (
             <>
               <div className="navbar-dflex-inner">
-                <NavItem
+                {/* <NavItem
                   id="searchbar-container"
                   className="d-flex flex-column justify-content-center"
                 >
                   <NavSearch />
+                </NavItem> */}
+                <NavItem
+                  id="searchbar-container"
+                  className="d-flex flex-column justify-content-center"
+                >
+                  <NavbarSearch />
                 </NavItem>
                 <NavItem className="navbar-padding">
                   <NavLink tag={RRNavLink} to="/resources">

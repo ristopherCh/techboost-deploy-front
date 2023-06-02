@@ -54,6 +54,12 @@ namespace TechBoost.Controllers
 			return Ok(_resourceRepository.GetResourcesByUserId(userId));
 		}
 
+		[HttpGet("search/{searchTerm}")]
+		public IActionResult SearchResources(string searchTerm)
+		{
+			return Ok(_resourceRepository.SearchResources(searchTerm));
+		}
+
 		[HttpPost]
 		public IActionResult Post(Resource resource)
 		{
