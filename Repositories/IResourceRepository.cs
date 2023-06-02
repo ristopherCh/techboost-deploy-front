@@ -14,5 +14,6 @@ namespace TechBoost.Repositories
 		List<Resource> GetResourcesBySubject(string subject);
 		List<Resource> GetResourcesByCreator(string creator);
 		List<Resource> GetResourcesByUserId(int userId);
+		List<Resource> SearchResources(string searchTerm);
 	}
 }

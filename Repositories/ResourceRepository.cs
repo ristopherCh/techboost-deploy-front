@@ -247,140 +247,6 @@ namespace TechBoost.Repositories
 			return resources;
 		}
 
-
-
-
-
-
-		//public List<Resource> GetResourcesByUserId(int userId)
-		//{
-		//	var resources = new List<Resource>();
-		//	using (var conn = Connection)
-		//	{
-		//		conn.Open();
-		//		using (var cmd = conn.CreateCommand())
-		//		{
-		//			cmd.CommandText = @"
-		//					SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
-		//					MediaType.Name AS MediaTypeName,
-		//					ResourceSubject.Id AS ResourceSubjectId,
-		//					Subject.Id AS SubjectId, Subject.Name AS SubjectName
-		//					FROM Resource
-		//					LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id
-		//					LEFT JOIN ResourceSubject ON Resource.Id = ResourceSubject.ResourceId
-		//					LEFT JOIN Subject ON Subject.Id = ResourceSubject.SubjectId
-		//					WHERE Resource.SubmitterId = @UserId";
-
-		//			DbUtils.AddParameter(cmd, "@UserId", userId);
-
-		//			using (SqlDataReader reader = cmd.ExecuteReader())
-		//			{
-
-		//				while (reader.Read())
-		//				{
-		//					var resourceId = DbUtils.GetInt(reader, "Id");
-		//					var existingResource = resources.FirstOrDefault(r => r.Id == resourceId);
-		//					if (existingResource == null)
-		//					{
-		//						existingResource = new Resource()
-		//						{
-		//							Id = DbUtils.GetInt(reader, "Id"),
-		//							Name = DbUtils.GetString(reader, "Name"),
-		//							SubmitterId = DbUtils.GetInt(reader, "SubmitterId"),
-		//							Creator = DbUtils.GetString(reader, "Creator"),
-		//							Description = DbUtils.GetString(reader, "Description"),
-		//							Price = reader.GetDecimal(reader.GetOrdinal("Price")),
-		//							DatePublished = DbUtils.GetDateTime(reader, "DatePublished"),
-		//							ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-		//							ResourceUrl = DbUtils.GetString(reader, "ResourceUrl"),
-		//							MediaTypeId = DbUtils.GetInt(reader, "MediaTypeId"),
-		//							MediaType = new MediaType()
-		//							{
-		//								Id = DbUtils.GetInt(reader, "MediaTypeId"),
-		//								Name = DbUtils.GetString(reader, "MediaTypeName")
-		//							},
-		//							ResourceSubjects = new List<ResourceSubject>(),
-		//							Subjects = new List<Subject>(),
-		//							Reviews = new List<Review>()
-		//						};
-		//						resources.Add(existingResource);
-		//					}
-		//					if (!reader.IsDBNull(reader.GetOrdinal("ResourceSubjectId")))
-		//					{
-		//						existingResource.ResourceSubjects.Add(new ResourceSubject()
-		//						{
-		//							Id = DbUtils.GetInt(reader, "ResourceSubjectId"),
-		//							ResourceId = DbUtils.GetInt(reader, "Id"),
-		//							SubjectId = DbUtils.GetInt(reader, "SubjectId")
-		//						});
-		//					}
-		//					if (!reader.IsDBNull(reader.GetOrdinal("SubjectId")))
-		//					{
-		//						existingResource.Subjects.Add(new Subject()
-		//						{
-		//							Id = DbUtils.GetInt(reader, "SubjectId"),
-		//							Name = DbUtils.GetString(reader, "SubjectName")
-		//						});
-		//					}
-		//				}
-
-		//			}
-		//			cmd.CommandText = @"
-		//								SELECT Review.Id, Review.UserId, Review.ResourceId, Review.ReviewText, Review.ReviewScore, Review.DateCreated, UserProfile.Name 
-		//								FROM Resource 
-		//								LEFT JOIN Review ON Review.ResourceId = Resource.ID 
-		//								LEFT JOIN UserProfile ON Review.UserId = UserProfile.Id 
-		//								WHERE Resource.Id = @ResourceId";
-		//			foreach (Resource resource in resources)
-		//			{
-		//				cmd.Parameters.Clear();
-		//				cmd.Parameters.AddWithValue("@ResourceId", resource.Id);
-		//				using (SqlDataReader reader = cmd.ExecuteReader())
-		//				{
-		//					while (reader.Read())
-		//					{
-		//						Review review = new Review();
-		//						if (!reader.IsDBNull(reader.GetOrdinal("Id")))
-		//						{
-		//							review.Id = DbUtils.GetInt(reader, "Id");
-		//						}
-		//						if (!reader.IsDBNull(reader.GetOrdinal("UserId")))
-		//						{
-		//							review.UserId = DbUtils.GetInt(reader, "UserId");
-		//						}
-		//						if (!reader.IsDBNull(reader.GetOrdinal("Name")))
-		//						{
-		//							review.UserProfile = new UserProfile()
-		//							{
-		//								Name = DbUtils.GetString(reader, "Name")
-		//							};
-		//						}
-		//						if (!reader.IsDBNull(reader.GetOrdinal("ResourceId")))
-		//						{
-		//							review.ResourceId = DbUtils.GetInt(reader, "ResourceId");
-		//						}
-		//						if (!reader.IsDBNull(reader.GetOrdinal("ReviewText")))
-		//						{
-		//							review.ReviewText = DbUtils.GetString(reader, "ReviewText");
-		//						}
-		//						if (!reader.IsDBNull(reader.GetOrdinal("ReviewScore")))
-		//						{
-		//							review.ReviewScore = DbUtils.GetInt(reader, "ReviewScore");
-		//						}
-		//						if (!reader.IsDBNull(reader.GetOrdinal("DateCreated")))
-		//						{
-		//							review.DateCreated = DbUtils.GetDateTime(reader, "DateCreated");
-		//						}
-		//						resource.Reviews.Add(review);
-		//					}
-		//				}
-		//			}
-		//		}
-
-		//	}
-		//	return resources;
-		//}
-
 		public List<Resource> GetResourcesBySubject(string subject)
 		{
 			var resources = new List<Resource>();
@@ -390,17 +256,6 @@ namespace TechBoost.Repositories
 				using (var cmd = conn.CreateCommand())
 				{
 					cmd.CommandText =
-							//@"
-							//SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
-							//MediaType.Name AS MediaTypeName,
-							//ResourceSubject.Id AS ResourceSubjectId,
-							//Subject.Id AS SubjectId, Subject.Name AS SubjectName
-							//FROM Resource
-							//LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id
-							//LEFT JOIN ResourceSubject ON Resource.Id = ResourceSubject.ResourceId
-							//LEFT JOIN Subject ON Subject.Id = ResourceSubject.SubjectId
-							//WHERE Subject.Name = @Subject";
-
 							@"SELECT Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
 							MediaType.Name AS MediaTypeName,
 							ResourceSubject.Id AS ResourceSubjectId,
@@ -675,6 +530,88 @@ namespace TechBoost.Repositories
 
 			return resource;
 		}
+
+		public List<Resource> SearchResources(string searchTerm)
+		{
+			var resources = new List<Resource>();
+			using (var conn = Connection)
+			{
+				conn.Open();
+				using (var cmd = conn.CreateCommand())
+				{
+					cmd.CommandText = @"
+							SELECT 
+								Resource.Id, Resource.Name, SubmitterId, Creator, MediaTypeId, Description, Price, DatePublished, ImageUrl, ResourceUrl, 
+								MediaType.Name AS MediaTypeName,
+								ResourceSubject.Id AS ResourceSubjectId,
+								Subject.Id AS SubjectId, Subject.Name AS SubjectName
+							FROM Resource
+							LEFT JOIN MediaType ON Resource.MediaTypeId = MediaType.Id
+							LEFT JOIN ResourceSubject ON Resource.Id = ResourceSubject.ResourceId
+							LEFT JOIN Subject ON Subject.Id = ResourceSubject.SubjectId
+							WHERE (LOWER(Resource.Name) LIKE LOWER('%' + @SearchTerm + '%') OR LOWER(Resource.Description) LIKE LOWER('%' + @SearchTerm + '%'))
+							ORDER BY Resource.Id;";
+
+					DbUtils.AddParameter(cmd, "@SearchTerm", searchTerm);
+
+					using (SqlDataReader reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var resourceId = DbUtils.GetInt(reader, "Id");
+							var existingResource = resources.FirstOrDefault(r => r.Id == resourceId);
+							if (existingResource == null)
+							{
+								existingResource = new Resource()
+								{
+									Id = DbUtils.GetInt(reader, "Id"),
+									Name = DbUtils.GetString(reader, "Name"),
+									SubmitterId = DbUtils.GetInt(reader, "SubmitterId"),
+									Creator = DbUtils.GetString(reader, "Creator"),
+									Description = DbUtils.GetString(reader, "Description"),
+									Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+									DatePublished = DbUtils.GetDateTime(reader, "DatePublished"),
+									ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+									ResourceUrl = DbUtils.GetString(reader, "ResourceUrl"),
+									MediaTypeId = DbUtils.GetInt(reader, "MediaTypeId"),
+									MediaType = new MediaType()
+									{
+										Id = DbUtils.GetInt(reader, "MediaTypeId"),
+										Name = DbUtils.GetString(reader, "MediaTypeName")
+									},
+									ResourceSubjects = new List<ResourceSubject>(),
+									Subjects = new List<Subject>(),
+									Reviews = new List<Review>()
+								};
+								resources.Add(existingResource);
+							}
+							if (!reader.IsDBNull(reader.GetOrdinal("ResourceSubjectId")))
+							{
+								existingResource.ResourceSubjects.Add(new ResourceSubject()
+								{
+									Id = DbUtils.GetInt(reader, "ResourceSubjectId"),
+									ResourceId = DbUtils.GetInt(reader, "Id"),
+									SubjectId = DbUtils.GetInt(reader, "SubjectId")
+								});
+							}
+							if (!reader.IsDBNull(reader.GetOrdinal("SubjectId")))
+							{
+								existingResource.Subjects.Add(new Subject()
+								{
+									Id = DbUtils.GetInt(reader, "SubjectId"),
+									Name = DbUtils.GetString(reader, "SubjectName")
+								});
+							}
+						}
+
+					}
+					AddReviewsToResource(cmd, resources);
+				}
+			}
+			return resources;
+		}
+
+
 		public void Add(Resource resource)
 		{
 			using (var conn = Connection)

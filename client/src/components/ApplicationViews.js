@@ -26,12 +26,13 @@ const ApplicationViews = ({ isLoggedIn }) => {
         <Route path="resources">
           <Route index element={<ResourceList />} />
           <Route path="subjects/:subject" element=<ResourceList /> />
+          <Route path="mediaTypes/:mediaType" element=<ResourceList /> />
+          <Route path="creators/:creator" element=<ResourceList /> />
+          <Route path="search/:searchTerm" element=<ResourceList /> />
+          <Route path="users/:user" element=<ResourceList /> />
           <Route path=":resourceId/addreview" element=<ReviewAdd /> />
           <Route path=":resourceId/editreview" element=<ReviewEdit /> />
           <Route path=":resourceId/allreviews" element=<ReviewsList /> />
-          <Route path="mediaTypes/:mediaType" element=<ResourceList /> />
-          <Route path="creators/:creator" element=<ResourceList /> />
-          <Route path="users/:user" element=<ResourceList /> />
           <Route path="browse" element={<ResourceBrowse />} />
           <Route path="details/:id">
             <Route index element={<ResourceDetails />} />
