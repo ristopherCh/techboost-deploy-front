@@ -1,7 +1,7 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "/api/resource";
+const _apiUrl = "https://localhost:5001/api/resource";
 
 export const getResource = (resourceId) => {
   return getToken().then((token) => {

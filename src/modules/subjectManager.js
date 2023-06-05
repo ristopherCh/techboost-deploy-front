@@ -1,7 +1,7 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "/api/subject";
+const _apiUrl = "https://localhost:5001/api/subject";
 
 export const getAllSubjects = () => {
   return getToken().then((token) => {

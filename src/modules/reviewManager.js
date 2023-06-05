@@ -1,7 +1,7 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "/api/review";
+const _apiUrl = "https://localhost:5001/api/review";
 
 export const addReview = (reviewObj) => {
   return getToken().then((token) => {

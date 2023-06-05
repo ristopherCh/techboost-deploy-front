@@ -1,7 +1,7 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "/api/mediaType";
+const _apiUrl = "https://localhost:5001/api/mediaType";
 
 export const getAllMediaTypes = () => {
   return getToken().then((token) => {
