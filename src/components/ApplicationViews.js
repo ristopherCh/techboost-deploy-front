@@ -14,7 +14,7 @@ import ReviewUserList from "./Reviews/ReviewUserList";
 
 const ApplicationViews = ({ isLoggedIn }) => {
   return (
-    <Routes>
+    <Routes> 
       <Route path="/">
         <Route
           index
