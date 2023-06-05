@@ -30,7 +30,7 @@ function App() {
       <ApplicationViews user={user} isLoggedIn={isLoggedIn} />
     </Router>
   );
-}
+} 
 
 export default App;
 
