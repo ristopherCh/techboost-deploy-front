@@ -30,12 +30,6 @@ function App() {
       <ApplicationViews user={user} isLoggedIn={isLoggedIn} />
     </Router>
   );
-}   
+}
 
 export default App;
-
-// "@fortawesome/fontawesome-svg-core": "^6.4.0",
-// "@fortawesome/free-brands-svg-icons": "^6.4.0",
-// "@fortawesome/free-regular-svg-icons": "^6.4.0",
-// "@fortawesome/free-solid-svg-icons": "^6.4.0",
-// "@fortawesome/react-fontawesome": "^0.2.0",
