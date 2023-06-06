@@ -1,7 +1,8 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = "https://localhost:5001/api/userprofile";
+// const _apiUrl = "https://localhost:5001/api/userprofile";
+const _apiUrl = "techboostappserver.azurewebsites.net/api/userprofile";
 
 const _doesUserExist = (firebaseUserId) => {
   return getToken().then((token) =>
