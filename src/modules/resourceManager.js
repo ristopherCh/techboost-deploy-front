@@ -1,7 +1,7 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "techboostappserver.azurewebsites.net/api/resource";
+const _apiUrl = "https://techboostappserver.azurewebsites.net/api/resource";
 
 export const getResource = (resourceId) => {
   return getToken().then((token) => {

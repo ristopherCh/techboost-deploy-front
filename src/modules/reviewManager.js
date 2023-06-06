@@ -1,7 +1,7 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "techboostappserver.azurewebsites.net/api/review";
+const _apiUrl = "https://techboostappserver.azurewebsites.net/api/review";
 
 export const addReview = (reviewObj) => {
   return getToken().then((token) => {
