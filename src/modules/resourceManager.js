@@ -1,7 +1,27 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "https://techboostappserver.azurewebsites.net/api/resource";
+// const _apiUrl = "https://techboostappserver.azurewebsites.net/api/resource";
+const _apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/resource`;
+
+export const getAllResources = () => {
+  return getToken().then((token) => {
+    return fetch(_apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to fetch all resources."
+        );
+      }
+    });
+  });
+};
 
 export const getResource = (resourceId) => {
   return getToken().then((token) => {
@@ -17,25 +37,6 @@ export const getResource = (resourceId) => {
       } else {
         throw new Error(
           "An unknown error occurred while trying to fetch a resource."
-        );
-      }
-    });
-  });
-};
-
-export const getAllResources = () => {
-  return getToken().then((token) => {
-    return fetch(_apiUrl, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error(
-          "An unknown error occurred while trying to fetch all resources."
         );
       }
     });

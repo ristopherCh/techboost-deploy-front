@@ -1,7 +1,8 @@
 import "firebase/auth";
 import { getToken } from "./authManager";
 
-const _apiUrl = "https://techboostappserver.azurewebsites.net/api/review";
+// const _apiUrl = "https://techboostappserver.azurewebsites.net/api/review";
+const _apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/review`;
 
 export const addReview = (reviewObj) => {
   return getToken().then((token) => {

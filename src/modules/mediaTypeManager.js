@@ -2,7 +2,8 @@ import "firebase/auth";
 import { getToken } from "./authManager";
 
 // const _apiUrl = "https://localhost:5001/api/mediaType";
-const _apiUrl = "https://techboostappserver.azurewebsites.net/api/mediaType";
+// const _apiUrl = "https://techboostappserver.azurewebsites.net/api/mediaType";
+const _apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/mediaType`;
 
 export const getAllMediaTypes = () => {
   return getToken().then((token) => {
