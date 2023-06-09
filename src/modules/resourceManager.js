@@ -6,7 +6,6 @@ const _apiUrl = `${process.env.REACT_APP_API_BASE_URL}api/resource`;
 
 export const getAllResources = () => {
   return getToken().then((token) => {
-    console.log(token);
     return fetch(_apiUrl, {
       method: "GET",
       headers: {
