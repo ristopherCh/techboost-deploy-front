@@ -32,6 +32,8 @@ jobs:
           output_location: "build" # Built app content directory - optional
         env: # Define environment variables here
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+          REACT_APP_API_BASE_URL: "https://techboostappserver.azurewebsites.net/"
+
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
