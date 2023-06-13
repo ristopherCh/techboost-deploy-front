@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: true
       - name: Copy Static Web Apps Config
-        run: cp staticwebapp.config.json build/
+        run: cp staticwebapp.config.json ./build/staticwebapp.config.json
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
