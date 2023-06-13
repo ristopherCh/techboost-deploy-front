@@ -31,9 +31,7 @@ jobs:
         env: # Define environment variables here
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
           REACT_APP_API_BASE_URL: "https://techboostappserver.azurewebsites.net/"
-      - name: Copy Static Web Apps Config
-        run: cp staticwebapp.config.json ${{ env.BUILD_ARTIFACTSTAGINGDIRECTORY }}
-        if: steps.builddeploy.outputs.APP_LOCATION != ''
+
 
           ###### End of Repository/Build Configurations ######
 
