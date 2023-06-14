@@ -274,13 +274,6 @@ code {
   border: none;
 }
 
-.navlink-padding-0 {
-  display: block;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-}
-
 #profile-dropdown {
   display: block;
   padding: 0;
@@ -410,7 +403,6 @@ code {
 
   .padding-0 {
     display: block;
-    padding: 8px 0px;
     margin: 0px;
     text-align: left;
   }
@@ -421,6 +413,10 @@ code {
 
   .navbar-dflex {
     display: block;
+  }
+
+  .navlink-thin {
+    padding: 2px;
   }
 
   .navbar-dflex-inner {

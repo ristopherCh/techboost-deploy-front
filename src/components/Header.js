@@ -55,7 +55,7 @@ const Header = ({ isLoggedIn, user }) => {
     return (
       <NavLink
         tag={RRNavLink}
-        className="responsive-navitem navlink-padding-0"
+        className="responsive-navitem padding-0 navlink-thin"
         to="/resources/users/current"
       >
         My profile
@@ -67,7 +67,7 @@ const Header = ({ isLoggedIn, user }) => {
     return (
       <NavLink
         tag={RRNavLink}
-        className="responsive-navitem navlink-padding-0"
+        className="responsive-navitem padding-0 navlink-thin"
         to="/resources/users/current"
       >
         My resources
@@ -79,7 +79,7 @@ const Header = ({ isLoggedIn, user }) => {
     return (
       <NavLink
         tag={RRNavLink}
-        className="responsive-navitem padding-0 "
+        className="responsive-navitem padding-0 navlink-thin"
         to="/reviews/user"
       >
         My reviews
@@ -92,7 +92,7 @@ const Header = ({ isLoggedIn, user }) => {
       <NavLink
         tag={RRNavLink}
         to="/login"
-        className="nav-link responsive-navitem padding-0"
+        className="nav-link responsive-navitem padding-0 navlink-thin"
         style={{ cursor: "pointer" }}
         onClick={logout}
       >
@@ -128,17 +128,29 @@ const Header = ({ isLoggedIn, user }) => {
                   <NavbarSearch />
                 </NavItem>
                 <NavItem className="navbar-padding">
-                  <NavLink tag={RRNavLink} to="/resources">
+                  <NavLink
+                    className="navlink-thin"
+                    tag={RRNavLink}
+                    to="/resources"
+                  >
                     All Resources
                   </NavLink>
                 </NavItem>
                 <NavItem className="">
-                  <NavLink tag={RRNavLink} to="/resources/browse">
+                  <NavLink
+                    className="navlink-thin"
+                    tag={RRNavLink}
+                    to="/resources/browse"
+                  >
                     Explore
                   </NavLink>
                 </NavItem>
                 <NavItem className="">
-                  <NavLink tag={RRNavLink} to="/resources/create">
+                  <NavLink
+                    className="navlink-thin"
+                    tag={RRNavLink}
+                    to="/resources/create"
+                  >
                     Create resource
                   </NavLink>
                 </NavItem>
