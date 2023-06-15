@@ -195,7 +195,7 @@ const ResourceList = () => {
               <PaginationButtons />
             </div>
 
-            <div className="col-12 col-lg-4 d-flex justify-content-center align-items-center">
+            <div className="col-12 col-lg-4 d-flex justify-content-center align-items-center sortBy">
               <ResourceSort
                 sortBy={sortBy}
                 handleSortChange={handleSortChange}
@@ -244,10 +244,10 @@ const ResourceList = () => {
                       </div>
                     ))}
                 </div>
+                <PaginationButtons />
               </div>
             )}
           </div>
-          <PaginationButtons />
         </>
       )}
     </div>
