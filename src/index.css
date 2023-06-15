@@ -33,7 +33,7 @@ code {
 }
 
 .min-width-500px {
-  min-width: 500px;
+  min-width: 400px;
 }
 
 .nice-color {
@@ -106,6 +106,15 @@ code {
   width: 125px;
 }
 
+.width-30 {
+  width: 30%;
+  max-width: 150px;
+}
+
+.mw-150px {
+  max-width: 150px;
+}
+
 .width-175px {
   width: 175px;
 }
@@ -160,6 +169,10 @@ code {
 
 .min-width-100 {
   min-width: 100px;
+}
+
+.min-width-150 {
+  min-width: 150px;
 }
 
 .width-200 {
@@ -392,7 +405,6 @@ code {
 .subjects-border {
   border-right: 1px solid rgb(215, 215, 215);
 }
-
 
 /* responsive */
 

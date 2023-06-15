@@ -54,7 +54,7 @@ const ResourceCard = ({ resource, currentUser, reviewsShowing }) => {
   };
 
   return (
-    <Card className="m-2 box-shadow">
+    <Card className="box-shadow">
       <CardHeader className="color-medium">
         <Link className="clean-link" to={`/resources/details/${resource.id}`}>
           <h5>{resource.name}</h5>

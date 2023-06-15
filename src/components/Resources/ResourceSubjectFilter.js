@@ -106,7 +106,16 @@ const ResourceSubjectFilter = ({
               </div>
             )}
             <div className="border-grey p-2 mb-2">
-              <strong>Filter by subject</strong>
+              <div className="d-flex justify-content-between">
+                <strong>Filter by subject</strong>
+
+                <Button
+                  className="btn-sm color-medium-2 border-none text-black box-shadow-2 w-25"
+                  onClick={handleSubjectsSelection}
+                >
+                  Apply
+                </Button>
+              </div>
               <ul className="subjects-ul">
                 {topSubjects.map((subject, index) => (
                   <li className="subjects-li ps-1 pe-1" key={subject.id}>
@@ -161,12 +170,6 @@ const ResourceSubjectFilter = ({
                 </li>
               </ul>
             </div>
-            <Button
-              className="btn-sm color-medium-2 border-none text-black box-shadow-2 width-125px"
-              onClick={handleSubjectsSelection}
-            >
-              Apply
-            </Button>
           </div>
         </div>
       )}

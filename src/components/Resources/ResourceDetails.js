@@ -49,8 +49,8 @@ const ResourceDetails = () => {
   const showButtons = user.id === resource.submitterId;
 
   return (
-    <div className="d-flex flex-column align-items-center">
-      <div className="w-50 min-width-500px">
+    <div className="d-flex flex-column align-items-center row">
+      <div className="col-12 col-md-9">
         <ResourceCard
           resource={resource}
           currentUser={user}
@@ -59,10 +59,16 @@ const ResourceDetails = () => {
       </div>
       {Object.keys(user).length > 0 && showButtons ? (
         <div>
-          <Button className="color-secondary border-none m-2 text-black" onClick={() => navigate("edit")}>
+          <Button
+            className="color-secondary border-none m-2 text-black"
+            onClick={() => navigate("edit")}
+          >
             Edit
           </Button>
-          <Button className="m-3 btn-delete border-none text-black" onClick={handleDeactivateClick}>
+          <Button
+            className="m-3 btn-delete border-none text-black"
+            onClick={handleDeactivateClick}
+          >
             Delete
           </Button>
           <DeleteModal

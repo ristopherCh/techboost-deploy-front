@@ -143,19 +143,19 @@ const ResourceList = () => {
           <div className="width-125px"></div>
         ) : (
           <button
-            className="width-125px btn btn-sm color-light box-shadow-2"
+            className="width-30 btn btn-sm color-light box-shadow-2"
             onClick={handlePreviousPage}
           >
             Previous Page
           </button>
         )}
 
-        <div className="me-3 ms-3">
+        <div className="me-3 ms-3 w-50 mw-150px text-center">
           Page {currentPage} of {totalPages}
         </div>
         {currentPage !== totalPages ? (
           <button
-            className="width-125px btn btn-sm color-light-2 box-shadow-2"
+            className="width-30 btn btn-sm color-light-2 box-shadow-2"
             onClick={handleNextPage}
           >
             Next Page
@@ -190,12 +190,12 @@ const ResourceList = () => {
             <h4 className="mt-2 text-center">Results for:</h4>
             <h2 className="text-center m-2">{header}</h2>
           </div>
-          <div className="row mb-2 d-flex align-items-center border-top border-bottom">
-            <div className="col-8">
+          <div className="row mb-2 d-flex align-items-center justify-content-center border-top border-bottom">
+            <div className="col-12 col-lg-8">
               <PaginationButtons />
             </div>
 
-            <div className="col-4 d-flex justify-content-center align-items-center">
+            <div className="col-12 col-lg-4 d-flex justify-content-center align-items-center">
               <ResourceSort
                 sortBy={sortBy}
                 handleSortChange={handleSortChange}
@@ -235,7 +235,7 @@ const ResourceList = () => {
                       (currentPage - 1) * resourcesPerPage + resourcesPerPage
                     )
                     .map((resource) => (
-                      <div key={resource.id} className="col-12 col-xl-6 mb-4">
+                      <div key={resource.id} className="col-12 col-xl-6 mt-2">
                         <ResourceCard
                           reviewsShowing={false}
                           currentUser={currentUser}
