@@ -106,6 +106,10 @@ code {
   width: 125px;
 }
 
+.width-175px {
+  width: 175px;
+}
+
 .width-50 {
   width: 50%;
 }
@@ -145,6 +149,10 @@ code {
 /* .width-100 {
   width: 100%;
 } */
+
+.max-width-350 {
+  max-width: 350px;
+}
 
 .max-width-250 {
   max-width: 250px;
@@ -296,10 +304,6 @@ code {
   flex-direction: row;
 }
 
-.red-border {
-  /* border: 1px solid red; */
-}
-
 /* All resources subjects dropdown */
 
 .subjects-ul {
@@ -339,7 +343,6 @@ code {
 }
 
 #check_id_label {
-  width: 100%;
   height: 25px;
   cursor: pointer;
   position: absolute;
@@ -349,7 +352,7 @@ code {
 }
 
 #check_id_label:before {
-  content: "More";
+  content: "See all";
   left: 10px;
 }
 
@@ -385,6 +388,11 @@ code {
 #check_id:checked + label:after {
   content: "⇡";
 }
+
+.subjects-border {
+  border-right: 1px solid rgb(215, 215, 215);
+}
+
 
 /* responsive */
 
