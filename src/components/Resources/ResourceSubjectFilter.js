@@ -87,8 +87,8 @@ const ResourceSubjectFilter = ({
     setExpanded(event.target.checked);
   };
 
-  const topSubjects = subjects.slice(0, 0);
-  const remainingSubjects = subjects.slice(0);
+  const topSubjects = subjects.slice(0, 3);
+  const remainingSubjects = subjects.slice(3);
 
   return (
     <div className="">

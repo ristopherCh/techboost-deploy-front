@@ -56,13 +56,13 @@ const ReviewCard = (props) => {
     return (
       <>
         <Link
-          className="btn-sm btn color-secondary border-none text-black me-5 box-shadow-2"
+          className="btn-sm btn color-secondary border-none me-1 text-black box-shadow-2"
           to={`/resources/${review.resourceId}/editreview`}
         >
           Edit
         </Link>
         <Button
-          className="btn btn-sm btn-delete border-none text-black me-5 box-shadow-2"
+          className="btn btn-sm btn-delete border-none text-black me-1 box-shadow-2"
           onClick={handleDeleteButton}
         >
           Delete

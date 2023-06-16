@@ -80,7 +80,10 @@ const ReviewsList = () => {
         </select>
       </div>
       {reviews.map((review) => (
-        <div key={review.id} className="w-75 d-flex flex-column mx-auto">
+        <div
+          key={review.id}
+          className="max-width-500 d-flex flex-column mx-auto"
+        >
           <ReviewCard
             resourceId={resourceId}
             review={review}

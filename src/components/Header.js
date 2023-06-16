@@ -54,6 +54,7 @@ const Header = ({ isLoggedIn, user }) => {
   const MyProfile = () => {
     return (
       <NavLink
+        onClick={handleCloseNavbar}
         tag={RRNavLink}
         className="responsive-navitem padding-0 navlink-thin"
         to="/resources/users/current"
@@ -66,6 +67,7 @@ const Header = ({ isLoggedIn, user }) => {
   const MyResources = () => {
     return (
       <NavLink
+        onClick={handleCloseNavbar}
         tag={RRNavLink}
         className="responsive-navitem padding-0 navlink-thin"
         to="/resources/users/current"
@@ -78,6 +80,7 @@ const Header = ({ isLoggedIn, user }) => {
   const MyReviews = () => {
     return (
       <NavLink
+        onClick={handleCloseNavbar}
         tag={RRNavLink}
         className="responsive-navitem padding-0 navlink-thin"
         to="/reviews/user"
@@ -101,26 +104,33 @@ const Header = ({ isLoggedIn, user }) => {
     );
   };
 
+  const handleCloseNavbar = () => {
+    setIsOpen(false);
+  };
+
   return (
     <Navbar className="navbar-color" dark expand="lg">
       {isLoggedIn && (
-        <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
+        <NavbarBrand
+          onClick={handleCloseNavbar}
+          className="mr-auto"
+          tag={RRNavLink}
+          to="/"
+        >
           TechBoost
         </NavbarBrand>
       )}
-      {!isLoggedIn && <NavbarBrand className="mr-auto">TechBoost</NavbarBrand>}
+      {!isLoggedIn && (
+        <NavbarBrand onClick={handleCloseNavbar} className="mr-auto">
+          TechBoost
+        </NavbarBrand>
+      )}
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar id="target">
         <Nav className="mr-auto w-100 navbar-dflex" navbar>
           {isLoggedIn && (
             <>
               <div className="navbar-dflex-inner">
-                {/* <NavItem
-                  id="searchbar-container"
-                  className="d-flex flex-column justify-content-center"
-                >
-                  <NavSearch />
-                </NavItem> */}
                 <NavItem
                   id="searchbar-container"
                   className="d-flex flex-column justify-content-center"
@@ -129,6 +139,7 @@ const Header = ({ isLoggedIn, user }) => {
                 </NavItem>
                 <NavItem className="navbar-padding">
                   <NavLink
+                    onClick={handleCloseNavbar}
                     className="navlink-thin"
                     tag={RRNavLink}
                     to="/resources"
@@ -138,6 +149,7 @@ const Header = ({ isLoggedIn, user }) => {
                 </NavItem>
                 <NavItem className="">
                   <NavLink
+                    onClick={handleCloseNavbar}
                     className="navlink-thin"
                     tag={RRNavLink}
                     to="/resources/browse"
@@ -147,6 +159,7 @@ const Header = ({ isLoggedIn, user }) => {
                 </NavItem>
                 <NavItem className="">
                   <NavLink
+                    onClick={handleCloseNavbar}
                     className="navlink-thin"
                     tag={RRNavLink}
                     to="/resources/create"

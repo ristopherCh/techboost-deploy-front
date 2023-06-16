@@ -167,6 +167,10 @@ code {
   max-width: 250px;
 }
 
+.max-width-500 {
+  max-width: 1000px;
+}
+
 .min-width-100 {
   min-width: 100px;
 }
@@ -317,6 +321,12 @@ code {
   flex-direction: row;
 }
 
+.editDeleteComment {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 /* All resources subjects dropdown */
 
 .subjects-ul {
@@ -413,7 +423,7 @@ code {
     padding: 10px 0px;
     border-top: 1px solid rgb(230, 230, 230);
   }
-  
+
   .searchbar-alignment {
     top: 75px;
   }

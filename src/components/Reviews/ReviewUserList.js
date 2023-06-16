@@ -24,7 +24,7 @@ const ReviewUserList = () => {
   return (
     <div className="d-flex justify-content-center align-items-center flex-column">
       <h2 className="m-4">Your reviews</h2>
-      <div className="w-50">
+      <div className="w-75">
         {reviews.map((review) => (
           <div key={review.id}>
             <Link
