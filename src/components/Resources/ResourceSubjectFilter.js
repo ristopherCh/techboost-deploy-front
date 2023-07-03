@@ -87,6 +87,17 @@ const ResourceSubjectFilter = ({
     setExpanded(event.target.checked);
   };
 
+  const clearFilters = () => {
+    setExpanded(false);
+    setCurrentPage(1);
+    setSubjectFiltered(false);
+    setFilteredResources(allResources);
+    setDisplayedSubjectNames([]);
+    setSelectedSubjects([]);
+    setSelectedSubjectNames([]);
+    setIsChecked(Array(subjects.length).fill(false));
+  };
+
   const topSubjects = subjects.slice(0, 3);
   const remainingSubjects = subjects.slice(3);
 
@@ -99,7 +110,10 @@ const ResourceSubjectFilter = ({
               <div className="mb-2">
                 <div className="d-flex justify-content-around">
                   <strong>Subject filters:</strong>
-                  <Button className="btn-sm color-medium border-none text-black box-shadow-2 ms-2">
+                  <Button
+                    className="btn-sm color-medium border-none text-black box-shadow-2 ms-2"
+                    onClick={clearFilters}
+                  >
                     Clear all
                   </Button>
                 </div>
