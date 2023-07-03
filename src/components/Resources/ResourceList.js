@@ -27,6 +27,7 @@ const ResourceList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const resourcesPerPage = 6;
   const [totalPages, setTotalPages] = useState(1);
+  const [resourcesLoaded, setResourcesLoaded] = useState(false);
 
   useEffect(() => {
     me().then(setCurrentUser);
@@ -39,23 +40,38 @@ const ResourceList = () => {
   useEffect(() => {
     setCurrentPage(1);
     if (Object.keys(params).length === 0) {
-      getAllResources().then(setResources);
+      getAllResources().then((resources) => {
+        setResourcesLoaded(true);
+        setResources(resources);
+      });
       setHeader("All Resources");
     } else {
       if (params.mediaType) {
-        getResourcesByMediaType(params.mediaType).then(setResources);
+        getResourcesByMediaType(params.mediaType).then((resources) => {
+          setResourcesLoaded(true);
+          setResources(resources);
+        });
         setHeader(params.mediaType);
       }
       if (params.subject) {
-        getResourcesBySubject(params.subject).then(setResources);
+        getResourcesBySubject(params.subject).then((resources) => {
+          setResourcesLoaded(true);
+          setResources(resources);
+        });
         setHeader(params.subject);
       }
       if (params.creator) {
-        getResourcesByCreator(params.creator).then(setResources);
+        getResourcesByCreator(params.creator).then((resources) => {
+          setResourcesLoaded(true);
+          setResources(resources);
+        });
         setHeader(params.creator);
       }
       if (params.searchTerm) {
-        searchResources(params.searchTerm).then(setResources);
+        searchResources(params.searchTerm).then((resources) => {
+          setResourcesLoaded(true);
+          setResources(resources);
+        });
         setHeader(`"${params.searchTerm}"`);
       }
     }
@@ -73,7 +89,7 @@ const ResourceList = () => {
   }, [sortBy]);
 
   useEffect(() => {
-    if (resources.length > 0 && Object.keys(currentUser).length > 0) {
+    if (resourcesLoaded && Object.keys(currentUser).length > 0) {
       setLoading(false);
     }
   }, [resources, currentUser]);

@@ -28,7 +28,7 @@ const ResourceBrowse = () => {
 
   return (
     <div className="d-flex flex-column">
-      <h2 className="text-center m-4">Browse</h2>
+      <h2 className="text-center m-4">Explore</h2>
       <div className="d-flex flex-row justify-content-around">
         <div>
           <div className="m-3">

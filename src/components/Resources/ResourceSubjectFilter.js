@@ -96,8 +96,13 @@ const ResourceSubjectFilter = ({
         <div>
           <div>
             {displayedSubjectNames.length > 0 && (
-              <div className="">
-                <strong>Additional subject filters:</strong>
+              <div className="mb-2">
+                <div className="d-flex justify-content-around">
+                  <strong>Subject filters:</strong>
+                  <Button className="btn-sm color-medium border-none text-black box-shadow-2 ms-2">
+                    Clear all
+                  </Button>
+                </div>
                 <ul className="ps-2 list-unstyled">
                   {displayedSubjectNames.map((name) => (
                     <li key={name}>{name}</li>

@@ -321,11 +321,6 @@ code {
   flex-direction: row;
 }
 
-.editDeleteComment {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 
 /* All resources subjects dropdown */
 
